@@ -256,6 +256,17 @@ export default {
       .on('mouseover', mouseoverBeforeCott)
       .on('mouseleave', mouseleave)
 
+    
+      svg.append("line")
+        .attr("x1", x(parseDateTime(this.data[12].DateTime)))  //<<== change your code here
+        .attr("y1", 0)
+        .attr("x2", x(parseDateTime(this.data[12].DateTime)))  //<<== and here
+        .attr("y2", height)
+        .attr("stroke-dasharray", 6)
+        .style("stroke-width", 2)
+        .style("stroke", "#ec6d5f")
+        .style("fill", "none")
+
 
 
     
