@@ -20,9 +20,9 @@
           <TheForecastDirection :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[2]" />
         </div>
         <div v-else>
-          <TheOceanWaveHeight v-show="activeGraphItem === graphitmes[0]" :data="oceanData.data.slice(0, upperbound)" />
-          <TheOceanPeakPeriod v-show="activeGraphItem === graphitmes[1]" :data="oceanData.data.slice(0, upperbound)" />
-          <TheOceanRadar v-show="activeGraphItem === graphitmes[2]" :data="oceanData.data.slice(0,upperbound)"/>
+          <TheOceanWaveHeight v-show="activeGraphItem === graphitmes[0]" :data="oceanData.data.slice(oceanData.data.length-upperbound-1, oceanData.data.length-1)" />
+          <TheOceanPeakPeriod v-show="activeGraphItem === graphitmes[1]" :data="oceanData.data.slice(oceanData.data.length-upperbound-1, oceanData.data.length-1)" />
+          <TheOceanRadar v-show="activeGraphItem === graphitmes[2]" :data="oceanData.data.slice(oceanData.data.length-upperbound-1, oceanData.data.length-1)"/>
         </div>
   
       </div>

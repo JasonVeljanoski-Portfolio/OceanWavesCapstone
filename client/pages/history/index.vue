@@ -20,9 +20,9 @@
           <TheHistoryForecastDirection :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[2]" />
         </div>
         <div v-else>
-          <TheHistoryWaveHeight v-show="activeGraphItem === graphitmes[0]" :data="historyData.history.slice(0, upperbound)" />
-          <TheHistoryPeakPeriod v-show="activeGraphItem === graphitmes[1]" :data="historyData.history.slice(0, upperbound)" />
-          <TheHistoryDirection v-show="activeGraphItem === graphitmes[2]" :data="historyData.history.slice(0,upperbound)" />
+          <TheHistoryWaveHeight v-show="activeGraphItem === graphitmes[0]" :data="historyData.history.slice(historyData.history.length-upperbound-1, historyData.history.length-1)" />
+          <TheHistoryPeakPeriod v-show="activeGraphItem === graphitmes[1]" :data="historyData.history.slice(historyData.history.length-upperbound-1, historyData.history.length-1)" />
+          <TheHistoryDirection v-show="activeGraphItem === graphitmes[2]" :data="historyData.history.slice(historyData.history.length-upperbound-1, historyData.history.length-1)" />
         </div>
 
       </div>

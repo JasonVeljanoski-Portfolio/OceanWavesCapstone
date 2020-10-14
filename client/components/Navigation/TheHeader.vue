@@ -4,6 +4,8 @@
       <img class="logo" src="@/static/logos/safeharbourTextLogo.svg" />
     </nuxt-link>
     <div class="spacer" />
+    <div v-if="ready" class="time">Currently {{ oceanData.data[oceanData.data.length-1].DateTime }}</div>
+    <div class="spacer" />
     <!-- Nav Links -->
     <nav class="navigation-items">
       <ul class="nav-list">
@@ -43,16 +45,14 @@ export default {
       activeAccount: false,
     }
   },
-  computed: {
-    ...mapGetters({ auth: 'account/getAuthenticationState' }),
-  },
   methods: {
-    ...mapMutations({ toggle: 'drawer/toggle' }),
-    ...mapMutations({ toggleFormLogin: 'account.forms/toggleLogin' }),
-    ...mapMutations({ toggleFormRegister: 'account.forms/toggleRegister' }),
-    toggleActiveAccount() {
-      this.activeAccount = !this.activeAccount
-    },
+    ...mapMutations({ toggle: 'drawer/toggle' })
+  },
+  computed: {
+    ...mapGetters({
+      oceanData: 'oceandata/getOceanData',
+      ready: 'oceandata/getOceanDataReady'
+    }),
   },
 }
 </script>
@@ -149,4 +149,12 @@ img
 .account li:hover
   cursor pointer
   background-color $border-color
+
+.time
+  font-size 10pt
+  font-weight bold
+  max-width 250px
+  text-overflow ellipsis
+  overflow hidden
+  white-space nowrap
 </style>
