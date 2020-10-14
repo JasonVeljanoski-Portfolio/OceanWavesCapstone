@@ -1,0 +1,25 @@
+/*
+*   transitions.styl - keep all vue transitions in one place
+*/
+
+/* fade - fade to 0 opacity */
+.fade-enter-active,
+.fade-leave-active
+  transition opacity 0.3s ease
+
+.fade-enter,
+.fade-leave-to
+  opacity 0
+
+/* slide - slide content right off the screen */
+.slide-enter-active,
+.slide-leave-active
+  transition: transform 0.5s ease
+
+.slide-enter,
+.slide-leave-to
+  transform translateX(100%)
+
+.slide-enter-to,
+.slide-leave
+  transform translateX(0)

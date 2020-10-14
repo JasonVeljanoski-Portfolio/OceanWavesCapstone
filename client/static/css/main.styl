@@ -1,0 +1,33 @@
+/*
+*   main.styl - mainly to keep variables consistent throughout vue components and pages
+*/
+
+/* THEME */
+$red = #ec6d5f
+$green = #27c9b8
+$blue = #4a98f7
+$yellow = #ffce00
+
+$navy = #285166
+$dark = #2d4051
+$light-grey = #9aa6b4
+$grey = #515b6e
+$border-color = #efefff
+
+/* VIEW */
+$phone-width-brkpnt = 750px     // mobile
+mobile()
+  @media (max-width: $phone-width-brkpnt)
+    {block}
+    
+ desktop()                       // desktop
+  @media (min-width: $phone-width-brkpnt)
+    {block}
+
+/* NAVIGATION */
+$header-height = 60px           // header
+
+$sidebar-width = 300px          // sidebar
+
+$footer-height-desktop = 150px  // footer
+$footer-height-phone = 280px
