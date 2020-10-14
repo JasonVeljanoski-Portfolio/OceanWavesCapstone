@@ -72,7 +72,6 @@ html
   box-sizing border-box
   margin 0
 
-
 body
   font-family 'Nunito', SansSerif
   font-weight 100
