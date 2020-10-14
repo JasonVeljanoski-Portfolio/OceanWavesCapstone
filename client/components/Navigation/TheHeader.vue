@@ -1,7 +1,7 @@
 <template>
   <header>
     <nuxt-link to="/">
-      <img class="logo" src="@/static/logos/safeharbour.svg" />
+      <img class="logo" src="@/static/logos/safeharbourTextLogo.svg" />
     </nuxt-link>
     <div class="spacer" />
     <!-- Nav Links -->

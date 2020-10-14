@@ -1,4 +1,5 @@
 <template>
+    <!-- Credit: https://codepen.io/hulf2015/pen/reyzRB -->
     <div>
       <svg
     xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -130,9 +131,10 @@ svg {
   display:block;
   margin: auto;
   border-radius: 50%;
-  /* max-width: 500px; */
+  max-width: 500px;
+  max-height: 500px;
   width: 100%;
-  /* padding: 10px; */
+  height: 100%;
 }
 #sea01, #sea02{
 		transform: translate(0px,0px);
