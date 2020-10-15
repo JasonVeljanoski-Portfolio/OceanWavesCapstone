@@ -251,6 +251,18 @@ export default {
       .attr('stroke-width', stroke.pointwidth)
       .on('mouseover', mouseoverRott)
       .on('mouseleave', mouseleave)
+
+    
+    // ADD Y LABEL AXIS
+    svg.append("text")
+      .attr("class", "y label")
+      .attr("text-anchor", "end")
+      .attr("y", 0)
+      .attr("dy", "-2em")
+      .attr("dx", "-5em")
+      .attr("transform", "rotate(-90)")
+      .attr('fill', colour.navy)
+      .text("peak wave period (sec)")
     // --------------------------------------------------------------------------------------
 
 

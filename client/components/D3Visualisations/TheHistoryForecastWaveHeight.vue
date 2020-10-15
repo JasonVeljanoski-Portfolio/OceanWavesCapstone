@@ -270,7 +270,16 @@ export default {
         .style("stroke", "#ec6d5f")
         .style("fill", "none")
 
-    
+      // ADD Y LABEL AXIS
+      svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "end")
+        .attr("y", 0)
+        .attr("dy", "-2em")
+        .attr("dx", "-5em")
+        .attr("transform", "rotate(-90)")
+        .attr('fill', colour.navy)
+        .text("wave height (m)")
     // --------------------------------------------------------------------------------------
 
 
