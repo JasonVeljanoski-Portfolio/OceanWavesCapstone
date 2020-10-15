@@ -171,6 +171,27 @@ export default {
 
 
     // ADD X AXIS --> DATE FORMAT
+    var formatMillisecond = d3.timeFormat(".%L"),
+        formatSecond = d3.timeFormat(":%S"),
+        formatMinute = d3.timeFormat("%I:%M"),
+        formatHour = d3.timeFormat("%I %p"),
+        formatDay = d3.timeFormat("%a %d"),
+        formatWeek = d3.timeFormat("%b %d"),
+        formatMonth = d3.timeFormat("%B"),
+        formatYear = d3.timeFormat("%Y");
+
+    function multiFormat(date) {
+      return (d3.timeSecond(date) < date ? formatMillisecond
+          : d3.timeMinute(date) < date ? formatSecond
+          : d3.timeHour(date) < date ? formatMinute
+          : d3.timeDay(date) < date ? formatHour
+          : d3.timeMonth(date) < date ? (d3.timeWeek(date) < date ? formatDay : formatWeek)
+          : d3.timeYear(date) < date ? formatMonth
+          : formatYear)(date);
+    }
+
+
+    // ADD X AXIS --> DATE FORMAT
     const x = d3
       .scaleTime()
       .domain(d3.extent(this.data, (d) => { return parseDateTime(d.DateTime) }))
@@ -178,7 +199,7 @@ export default {
     svg
       .append('g')
       .attr('transform', `translate(0, ${height})`)
-      .call(d3.axisBottom(x))
+      .call(d3.axisBottom(x).tickFormat(multiFormat))
       .attr('color', colour.navy)
 
     
