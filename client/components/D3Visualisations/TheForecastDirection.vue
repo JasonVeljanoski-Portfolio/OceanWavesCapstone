@@ -4,7 +4,7 @@
       <div id="forecastRadarChart"></div>
       <div class="flexbox">
         <svg id="legend-svg"></svg>
-        <div class="time">Normalised Wave Energy</div>
+        <div v-if="width > 500" class="time">Normalised Wave Energy</div>
       </div>
     </div>
     <div class="describe">Last Updateded: {{ data[data.length-1].DateTime }}</div>
@@ -34,6 +34,13 @@ export default {
         return typeof value === 'object'
       },
     },
+    width: {
+      type: Number,
+      required: true,
+      validator(value) {
+        return typeof value === 'number'
+      }
+    }
   },
   data() {
     return {
@@ -67,7 +74,7 @@ export default {
 
     // [ SETUP CONSTANTS ] ---------------------------------------------------------------------
     const margin = { top: 10, right: 30, bottom: 30, left: 60 },
-      size = 550,
+      size = this.width,
       width = size - margin.left - margin.right,
       height = size - margin.top - margin.bottom,
       radius = Math.min(width, height) / 2 - 30,
@@ -245,8 +252,8 @@ export default {
  
   
     // [ LEGEND ] ------------------------------------------------------------------------
-    var fullWidth = 600;
-    var fullHeight = 400;
+    var fullWidth = this.width - 100;
+    var fullHeight = this.width - 100;
 
     // add the legend now
     var legendFullHeight = fullHeight;
@@ -373,12 +380,16 @@ export default {
     else
       this.subsetData = this.data.slice(this.value-20, this.value)
 
+    // this.cottStats.max = d3.max(this.data, function(d) { return +d.CottHeight;} );
+    this.cottStats.max = 3.8 // hard coded max/min (sorry not sorry): 3.8   0.19
+    // this.cottStats.min = d3.min(this.data, function(d) { return +d.CottHeight;} );
+    this.cottStats.min = 0.19 // hard coded max/min (sorry not sorry): 3.8   0.19
 
     // duplicated code
 
     // [ SETUP CONSTANTS ] ---------------------------------------------------------------------
     const margin = { top: 10, right: 30, bottom: 30, left: 60 },
-      size = 550,
+      size = this.width,
       width = size - margin.left - margin.right,
       height = size - margin.top - margin.bottom,
       radius = Math.min(width, height) / 2 - 30,
@@ -386,7 +397,7 @@ export default {
       domain = {min: 0, max: 25}
 
     const style = {fontsize: '12px', stroke: '1.5px', navy: '#285166' ,grey: '#515b6e'}
-    const colour = {red: '#ffce00', green: '#27c9b8', blue: '#87c7ff', navy: '#285166', dark: '#2d4051'}
+    const colour = {red: '#ec6d5f', green: '#27c9b8', blue: '#2caaca', navy: '#285166', dark: '#2d4051'}
     const stroke = {linewidth: 1.5, pointwidth: 6}
 
     const scales = {
@@ -542,8 +553,8 @@ export default {
       .attr('opacity', (d, i) => opacityScale(i))
       .attr('r', 6)
       // .attr('fill', style.navy)
-      .attr('stroke', (d) => colors( (d.CottHeight - this.cottStats.min) / (this.cottStats.max - this.cottStats.min) ) )
       .attr('fill', (d) => colors( (d.CottHeight - this.cottStats.min) / (this.cottStats.max - this.cottStats.min) ) )
+      .attr('stroke', (d) => colors( (d.CottHeight - this.cottStats.min) / (this.cottStats.max - this.cottStats.min) ) )
       .attr('stroke-width', 0)
       .on('mouseover', mouseoverCottPeriod)
       .on('mouseleave', mouseleave)
@@ -556,8 +567,8 @@ export default {
  
   
     // [ LEGEND ] ------------------------------------------------------------------------
-    var fullWidth = 600;
-    var fullHeight = 400;
+    var fullWidth = this.width - 100;
+    var fullHeight = this.width - 100;
 
     // add the legend now
     var legendFullHeight = fullHeight;
@@ -668,6 +679,8 @@ export default {
         return out;
     }
     // ------------------------------------------------------------------------------
+
+
 
 
 

@@ -42,6 +42,7 @@ export default {
   cursor pointer
   padding 0px 3px 0px 3px
   margin 2px
+  font-size 10pt
 
 .button:hover
   opacity 0.8

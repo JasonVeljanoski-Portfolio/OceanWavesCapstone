@@ -4,7 +4,7 @@
       <div id="radarChart"></div>
       <div class="flexbox">
         <svg id="legend-svg"></svg>
-        <div class="time">Normalised Wave Energy</div>
+        <div v-if="width > 500" class="time">Normalised Wave Energy</div>
       </div>
     </div>
     <div class="describe">Last Updateded: {{ data[data.length-1].DateTime }}</div>
@@ -32,6 +32,13 @@ export default {
         return typeof value === 'object'
       },
     },
+    width: {
+      type: Number,
+      required: true,
+      validator(value) {
+        return typeof value === 'number'
+      }
+    }
   },
   data() {
     return {
@@ -65,7 +72,7 @@ export default {
 
     // [ SETUP CONSTANTS ] ---------------------------------------------------------------------
     const margin = { top: 10, right: 30, bottom: 30, left: 60 },
-      size = 550,
+      size = this.width,
       width = size - margin.left - margin.right,
       height = size - margin.top - margin.bottom,
       radius = Math.min(width, height) / 2 - 30,
@@ -243,8 +250,8 @@ export default {
  
   
     // [ LEGEND ] ------------------------------------------------------------------------
-    var fullWidth = 600;
-    var fullHeight = 400;
+    var fullWidth = this.width - 100;
+    var fullHeight = this.width - 100;
 
     // add the legend now
     var legendFullHeight = fullHeight;
@@ -376,7 +383,7 @@ export default {
 
     // [ SETUP CONSTANTS ] ---------------------------------------------------------------------
     const margin = { top: 10, right: 30, bottom: 30, left: 60 },
-      size = 550,
+      size = this.width,
       width = size - margin.left - margin.right,
       height = size - margin.top - margin.bottom,
       radius = Math.min(width, height) / 2 - 30,
@@ -554,8 +561,8 @@ export default {
  
   
     // [ LEGEND ] ------------------------------------------------------------------------
-    var fullWidth = 600;
-    var fullHeight = 400;
+    var fullWidth = this.width - 100;
+    var fullHeight = this.width - 100;
 
     // add the legend now
     var legendFullHeight = fullHeight;

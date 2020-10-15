@@ -15,13 +15,13 @@
 
         <div v-if="showForecast">
           <TheForecastWaveHeight :width="chartWidth" :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[0]" />
-          <TheForecastPeakPeriod :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[1]" />
-          <TheForecastDirection :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[2]" />
+          <TheForecastPeakPeriod :width="chartWidth" :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[1]" />
+          <TheForecastDirection :width="radarWidth" :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[2]" />
         </div>
         <div v-else>
-          <TheOceanWaveHeight v-show="activeGraphItem === graphitmes[0]" :data="oceanData.data.slice(oceanData.data.length-upperbound-1, oceanData.data.length-1)" />
-          <TheOceanPeakPeriod v-show="activeGraphItem === graphitmes[1]" :data="oceanData.data.slice(oceanData.data.length-upperbound-1, oceanData.data.length-1)" />
-          <TheOceanRadar v-show="activeGraphItem === graphitmes[2]" :data="oceanData.data.slice(oceanData.data.length-upperbound-1, oceanData.data.length-1)"/>
+          <TheOceanWaveHeight :width="chartWidth" v-show="activeGraphItem === graphitmes[0]" :data="oceanData.data.slice(oceanData.data.length-upperbound-1, oceanData.data.length-1)" />
+          <TheOceanPeakPeriod :width="chartWidth" v-show="activeGraphItem === graphitmes[1]" :data="oceanData.data.slice(oceanData.data.length-upperbound-1, oceanData.data.length-1)" />
+          <TheOceanRadar :width="radarWidth" v-show="activeGraphItem === graphitmes[2]" :data="oceanData.data.slice(oceanData.data.length-upperbound-1, oceanData.data.length-1)"/>
         </div>
   
       </div>
@@ -75,6 +75,7 @@ export default {
           height: 1,
           period: 2,
           chartWidth: 750,
+          radarWidth: 550,
           windowWidth: window.innerWidth
       }
   },
@@ -224,6 +225,16 @@ export default {
       // RESET WIDTH IF GREATER THAN THRESHOLD
       else {
         this.chartWidth = 750  // tested to be a good default
+        this.forceRerender()
+      }
+
+      // RESIZE RADAR CHARTS DIFFERENTLY
+      if ( this.windowWidth < 630 ) {
+        this.radarWidth = this.windowWidth * 0.85  // 0.85 of window width tested to be a good value
+        this.forceRerender()
+      }
+      else {
+        this.radarWidth = 550  // tested to be a good default
         this.forceRerender()
       }
          
