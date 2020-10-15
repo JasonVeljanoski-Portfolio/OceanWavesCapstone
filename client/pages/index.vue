@@ -11,11 +11,10 @@
 
       </div>
 
-
       <div :key="componentKey">
 
         <div v-if="showForecast">
-          <TheForecastWaveHeight :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[0]" />
+          <TheForecastWaveHeight :width="chartWidth" :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[0]" />
           <TheForecastPeakPeriod :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[1]" />
           <TheForecastDirection :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[2]" />
         </div>
@@ -31,6 +30,7 @@
     </BaseContainer>
     <TheStatsRack :confidence="confidence" :height="height" :period="period" :time="time" :graph="activeGraphItem" />
 
+
   </div>
 </template>
 
@@ -45,6 +45,7 @@ import TheOceanWaveHeight from '@/components/D3Visualisations/TheOceanWaveHeight
 import TheOceanPeakPeriod from '@/components/D3Visualisations/TheOceanPeakPeriod'
 import TheOceanRadar from '@/components/D3Visualisations/TheOceanRadar'
 import TheStatsRack from '@/components/SafeHarbourUtils/TheStatsRack'
+import TheDemoResponsiveD3 from '@/components/D3Visualisations/TheDemoResponsiveD3'
 
 export default {
   name: 'D3Demos',
@@ -57,7 +58,8 @@ export default {
     TheOceanWaveHeight,
     TheOceanPeakPeriod,
     TheOceanRadar,
-    TheStatsRack
+    TheStatsRack,
+    TheDemoResponsiveD3
   },
   data() {
       return {
@@ -71,15 +73,28 @@ export default {
           time: 'Forecast',
           confidence: 0,
           height: 1,
-          period: 2
+          period: 2,
+          chartWidth: 750,
+          windowWidth: window.innerWidth
       }
   },
   mounted() {
     this.confidence = this.oceanData.summary.forecast.confidence.waveHeight
     this.height = this.oceanData.summary.forecast.height
     this.period = this.oceanData.summary.forecast.period
+
+    // get window width
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    })
+  },
+  beforeDestroy() { 
+    window.removeEventListener('resize', this.onResize); 
   },
   methods: {
+    onResize() {
+      this.windowWidth = window.innerWidth
+    },
       forceRerender() {
         this.componentKey += 1
       },
@@ -193,17 +208,28 @@ export default {
 
       }
   },
-//   methods: {
-//     ...mapActions({
-//       setDemoData: 'd3Demo/setDemoData', // map `this.setDemoData()` to `this.$store.dispatch('setDemoData')`
-//       setOceanData: 'oceandata/setOceanData'
-//     })
-//   },
   computed: {
     ...mapGetters({
       oceanData: 'oceandata/getOceanData'
     }),
   },
+  watch: {
+    windowWidth(newWidth, oldWidth) {
+
+      // IF WINDOW WIDTH IS SMALLER THAN THRESHOLD
+      if ( this.windowWidth < 850 ) {
+        this.chartWidth = this.windowWidth * 0.85  // 0.85 of window width tested to be a good value
+        this.forceRerender()
+      }
+      // RESET WIDTH IF GREATER THAN THRESHOLD
+      else {
+        this.chartWidth = 750  // tested to be a good default
+        this.forceRerender()
+      }
+         
+    }
+  },
+
 }
 </script>
 

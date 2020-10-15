@@ -16,16 +16,24 @@ export default {
       validator(value) {
         return typeof value === 'object'
       }
+    },
+    width: {
+      type: Number,
+      required: true,
+      validator(value) {
+        return typeof value === 'number'
+      }
     }
   },
   mounted() {
+  
     // [ SETUP CONSTANTS ] ---------------------------------------------------------------------
     const margin = { top: 10, right: 30, bottom: 30, left: 60 },
-      width = 1000 - margin.left - margin.right,
-      height = 400 - margin.top - margin.bottom
+      width = this.width - margin.left - margin.right,
+      height = width/1.61803398875 - margin.top - margin.bottom
 
     const colour = {red: '#ffce00', green: '#27c9b8', blue: '#87c7ff', navy: '#285166', dark: '#2d4051'}
-    const legend = {xpos: width-250, ypos: 0}
+    const legend = {xpos: width-250, ypos: height-50}
     const stroke = {linewidth: 1.5, pointwidth: 1}
 
     const parseDateTime = d3.timeParse('%Y-%m-%d %H:%M:%S')
@@ -159,11 +167,10 @@ export default {
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
+      // .attr('viewBox', `0 0 ${width} ${height}`)
+      // .attr('preserveAspectRatio', 'xMinYMid')
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
-
-
-
 
 
     // ADD X AXIS --> DATE FORMAT
@@ -291,25 +298,36 @@ export default {
         .style("stroke", "#ec6d5f")
         .style("fill", "none")
 
-      
-      // ADD Y LABEL AXIS
-      svg.append("text")
-        .attr("class", "y label")
-        .attr("text-anchor", "end")
-        .attr("y", 0)
-        .attr("dy", "-2em")
-        .attr("dx", "-5em")
-        .attr("transform", "rotate(-90)")
-        .attr('fill', colour.navy)
-        .text("wave height (m)")
+
+      if (this.width > 600) {
+        // ADD Y LABEL AXIS
+        svg.append("text")
+          .attr("class", "y label")
+          .attr("text-anchor", "end")
+          .attr("y", 0)
+          .attr("dy", "-2em")
+          .attr("dx", "-5em")
+          .attr("transform", "rotate(-90)")
+          .attr('fill', colour.navy)
+          .text("wave height (m)")
+      }
+
     // --------------------------------------------------------------------------------------
 
 
     // [ Create Legend ] --------------------------------------------------------------------
-    svg.append("circle").attr("cx", legend.xpos).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
-    svg.append("circle").attr("cx",legend.xpos).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
-    svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Forecasted Cottesloe Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
-    svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Recorded Cottesloe Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+    if (this.width > 500) {
+      svg.append("circle").attr("cx", legend.xpos).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
+      svg.append("circle").attr("cx",legend.xpos).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Forecasted Cottesloe Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
+      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Recorded Cottesloe Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+    }
+    else {
+      svg.append("circle").attr("cx", legend.xpos + 100).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
+      svg.append("circle").attr("cx",legend.xpos + 100).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+      svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 1).text("Forecast Cott Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
+      svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 25).text("Recorded Cott Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+    }
     // --------------------------------------------------------------------------------------
 
   }
@@ -318,4 +336,8 @@ export default {
 
 <style lang="stylus" scoped>
 @import '~static/css/main.styl'
+
+  #TheForecastWaveHeight
+    overflow hidden
+    margin auto
 </style>
