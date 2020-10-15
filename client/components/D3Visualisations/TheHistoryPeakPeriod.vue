@@ -17,15 +17,22 @@ export default {
         return typeof value === 'object'
       },
     },
+    width: {
+      type: Number,
+      required: true,
+      validator(value) {
+        return typeof value === 'number'
+      }
+    }
   },
   mounted() {
     // [ SETUP CONSTANTS ] ---------------------------------------------------------------------
     const margin = { top: 10, right: 30, bottom: 30, left: 60 },
-      width = 1000 - margin.left - margin.right,
-      height = 400 - margin.top - margin.bottom
+      width = this.width - margin.left - margin.right,
+      height = width/1.61803398875 - margin.top - margin.bottom // golden ratio
 
     const colour = {red: '#ec6d5f', green: '#27c9b8', blue: '#87c7ff', navy: '#285166', dark: '#2d4051'}
-    const legend = {xpos: 20, ypos: 0}
+    const legend = {xpos: width-250, ypos: height-50}
     const stroke = {linewidth: 1.5, pointwidth: 1}
 
     const parseDateTime = d3.timeParse('%Y-%m-%d %H:%M:%S')
@@ -275,23 +282,34 @@ export default {
 
     
     // ADD Y LABEL AXIS
-    svg.append("text")
-      .attr("class", "y label")
-      .attr("text-anchor", "end")
-      .attr("y", 0)
-      .attr("dy", "-2em")
-      .attr("dx", "-5em")
-      .attr("transform", "rotate(-90)")
-      .attr('fill', colour.navy)
-      .text("peak wave period (sec)")
+    if (this.width > 600) {
+        // ADD Y LABEL AXIS
+        svg.append("text")
+          .attr("class", "y label")
+          .attr("text-anchor", "end")
+          .attr("y", 0)
+          .attr("dy", "-2em")
+          .attr("dx", "-8em")
+          .attr("transform", "rotate(-90)")
+          .attr('fill', colour.navy)
+          .text("peak wave period (sec)")
+      }
     // --------------------------------------------------------------------------------------
 
 
     // [ Create Legend ] --------------------------------------------------------------------
-    svg.append("circle").attr("cx", legend.xpos).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
-    svg.append("circle").attr("cx",legend.xpos).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
-    svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Predicted Cottesloe Peak Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
-    svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Recorded Cottesloe Peak Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+    if (this.width > 500) {
+      svg.append("circle").attr("cx", legend.xpos).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
+      svg.append("circle").attr("cx",legend.xpos).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Predicted Cottesloe Peak Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
+      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Recorded Cottesloe Peak Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+    }
+    else {
+      svg.append("circle").attr("cx", legend.xpos + 100).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
+      svg.append("circle").attr("cx",legend.xpos + 100).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+      svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 1).text("Predicted Cott Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
+      svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 25).text("Recorded Cott Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+    }
     // --------------------------------------------------------------------------------------
 
   }

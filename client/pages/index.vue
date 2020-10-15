@@ -74,7 +74,7 @@ export default {
           confidence: 0,
           height: 1,
           period: 2,
-          chartWidth: 750,
+          chartWidth: 950,
           radarWidth: 550,
           windowWidth: window.innerWidth
       }
@@ -218,13 +218,13 @@ export default {
     windowWidth(newWidth, oldWidth) {
 
       // IF WINDOW WIDTH IS SMALLER THAN THRESHOLD
-      if ( this.windowWidth < 850 ) {
+      if ( this.windowWidth < 950 ) {
         this.chartWidth = this.windowWidth * 0.85  // 0.85 of window width tested to be a good value
         this.forceRerender()
       }
       // RESET WIDTH IF GREATER THAN THRESHOLD
       else {
-        this.chartWidth = 750  // tested to be a good default
+        this.chartWidth = 950  // tested to be a good default
         this.forceRerender()
       }
 

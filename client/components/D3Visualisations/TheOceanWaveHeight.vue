@@ -32,7 +32,7 @@ export default {
       height = width/1.61803398875 - margin.top - margin.bottom // golden ratio
 
     const colour = {red: '#ffce00', green: '#27c9b8', blue: '#87c7ff', navy: '#285166', dark: '#2d4051'}
-    const legend = {xpos: 25, ypos: 5}
+    const legend = {xpos: width-250, ypos: height-50}
     const stroke = {linewidth: 1.5, pointwidth: 1}
 
     const parseDateTime = d3.timeParse('%Y-%m-%d %H:%M:%S')
@@ -289,7 +289,7 @@ export default {
           .attr("text-anchor", "end")
           .attr("y", 0)
           .attr("dy", "-2em")
-          .attr("dx", "-5em")
+          .attr("dx", "-8em")
           .attr("transform", "rotate(-90)")
           .attr('fill', colour.navy)
           .text("wave height (m)")

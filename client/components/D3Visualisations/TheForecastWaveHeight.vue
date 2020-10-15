@@ -306,7 +306,7 @@ export default {
           .attr("text-anchor", "end")
           .attr("y", 0)
           .attr("dy", "-2em")
-          .attr("dx", "-5em")
+          .attr("dx", "-8em")
           .attr("transform", "rotate(-90)")
           .attr('fill', colour.navy)
           .text("wave height (m)")

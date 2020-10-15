@@ -11,18 +11,17 @@
 
       </div>
 
-
       <div :key="componentKey">
 
         <div v-if="showForecast">
-          <TheHistoryForecastWaveHeight :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[0]" />
-          <TheHistoryForecastPeakPeriod :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[1]" />
-          <TheHistoryForecastDirection :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[2]" />
+          <TheHistoryForecastWaveHeight :width="chartWidth" :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[0]" />
+          <TheHistoryForecastPeakPeriod :width="chartWidth" :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[1]" />
+          <TheHistoryForecastDirection :width="chartWidth" :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[2]" />
         </div>
         <div v-else>
-          <TheHistoryWaveHeight v-show="activeGraphItem === graphitmes[0]" :data="historyData.history.slice(historyData.history.length-upperbound-1, historyData.history.length-1)" />
-          <TheHistoryPeakPeriod v-show="activeGraphItem === graphitmes[1]" :data="historyData.history.slice(historyData.history.length-upperbound-1, historyData.history.length-1)" />
-          <TheHistoryDirection v-show="activeGraphItem === graphitmes[2]" :data="historyData.history.slice(historyData.history.length-upperbound-1, historyData.history.length-1)" />
+          <TheHistoryWaveHeight :width="chartWidth" v-show="activeGraphItem === graphitmes[0]" :data="historyData.history.slice(historyData.history.length-upperbound-1, historyData.history.length-1)" />
+          <TheHistoryPeakPeriod :width="chartWidth" v-show="activeGraphItem === graphitmes[1]" :data="historyData.history.slice(historyData.history.length-upperbound-1, historyData.history.length-1)" />
+          <TheHistoryDirection :width="chartWidth" v-show="activeGraphItem === graphitmes[2]" :data="historyData.history.slice(historyData.history.length-upperbound-1, historyData.history.length-1)" />
         </div>
 
       </div>
@@ -75,13 +74,24 @@ export default {
           time: 'Forecast',
           confidence: 0,
           height: 1,
-          period: 2
+          period: 2,
+          chartWidth: 950,
+          radarWidth: 550,
+          windowWidth: window.innerWidth
       }
   },
   mounted() {
     this.confidence = this.historyData.summary_history.forecast.confidence.waveHeight
     this.height = this.historyData.summary_history.forecast.height
     this.period = this.historyData.summary_history.forecast.period
+
+    // get window width
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    })
+  },
+  beforeDestroy() { 
+    window.removeEventListener('resize', this.onResize); 
   },
   computed: {
     ...mapGetters({
@@ -89,6 +99,9 @@ export default {
     }),
   },
   methods: {
+    onResize() {
+      this.windowWidth = window.innerWidth
+    },
       forceRerender() {
         this.componentKey += 1
       },
@@ -201,19 +214,33 @@ export default {
         this.forceRerender()
 
       }
-  }
-//   methods: {
-//     ...mapActions({
-//       setDemoData: 'd3Demo/setDemoData', // map `this.setDemoData()` to `this.$store.dispatch('setDemoData')`
-//       setOceanData: 'oceandata/setOceanData'
-//     })
-//   },
-//   computed: {
-//     ...mapGetters({
-//       demoData: 'd3Demo/getDemoData',
-//       oceanData: 'oceandata/getOceanData'
-//     }),
-//   },
+  },
+  watch: {
+    windowWidth(newWidth, oldWidth) {
+
+      // IF WINDOW WIDTH IS SMALLER THAN THRESHOLD
+      if ( this.windowWidth < 950 ) {
+        this.chartWidth = this.windowWidth * 0.85  // 0.85 of window width tested to be a good value
+        this.forceRerender()
+      }
+      // RESET WIDTH IF GREATER THAN THRESHOLD
+      else {
+        this.chartWidth = 950  // tested to be a good default
+        this.forceRerender()
+      }
+
+      // RESIZE RADAR CHARTS DIFFERENTLY
+      if ( this.windowWidth < 630 ) {
+        this.radarWidth = this.windowWidth * 0.85  // 0.85 of window width tested to be a good value
+        this.forceRerender()
+      }
+      else {
+        this.radarWidth = 550  // tested to be a good default
+        this.forceRerender()
+      }
+         
+    }
+  },
 }
 </script>
 
