@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     imagePath() {
-      return require(`~/static/logos/${this.logoFileName}`)
+      return require(`~/assets/logos/${this.logoFileName}`)
     },
     getFileName() {
       return this.logoFileName.split('.')[0]

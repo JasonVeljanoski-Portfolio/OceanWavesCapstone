@@ -1,7 +1,7 @@
 <template>
   <header>
     <nuxt-link to="/">
-      <img class="logo" src="@/static/logos/safeharbourTextLogo.svg" />
+      <img class="logo" src="~/assets/logos/safeharbourTextLogo.svg" />
     </nuxt-link>
     <div class="spacer" />
     <div v-if="ready" class="time">Last Updated {{ oceanData.data[oceanData.data.length-1].DateTime }}</div>

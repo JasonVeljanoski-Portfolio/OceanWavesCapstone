@@ -3,7 +3,7 @@
     <!-- copyright -->
     <div>
       <nuxt-link to="/">
-        <img class="logo" src="@/static/logos/safeharbourTextLogo.svg" />
+        <img class="logo" src="~/assets/logos/safeharbourTextLogo.svg" />
       </nuxt-link>
       <p>&#9400; SafeHarbour 2020. All rights reserved.</p>
     </div>

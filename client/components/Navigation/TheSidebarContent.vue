@@ -3,7 +3,7 @@
     <!-- header -->
     <header>
       <nuxt-link class="logo" to="/">
-        <img @click="toggle" src="@/static/logos/safeharbour.svg" />
+        <img @click="toggle" src="~/assets/logos/safeharbour.svg" />
       </nuxt-link>
       <div class="spacer" />
       <div>
