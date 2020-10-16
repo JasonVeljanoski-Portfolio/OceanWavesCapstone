@@ -106,18 +106,23 @@ export default {
     const toggleRott = function(d) {
         // is the element currently visible ?
         let currentOpacity = d3.selectAll(".fcRottHeight").style("opacity")
+        // let currentOpacityCott = d3.selectAll(".bfWaveHeightArrow").style("opacity")
         // Change the opacity: from 0 to 1 or from 1 to 0
         d3.selectAll(".fcRottHeight").transition().style("opacity", currentOpacity == 0 ? 1:0)
-        d3.selectAll(".waveHeightArrow").transition().style("opacity", currentOpacity == 0 ? 1:0)
+        // d3.selectAll(".bfWaveHeightArrow").transition().style("opacity", currentOpacityCott == 0 ? 1:0)
+        // toggleDirection()
+
     }
 
     // TOGGLE COTTESLOE GRAPH
     const toggleCott = function(d) {
         // is the element currently visible ?
         let currentOpacity = d3.selectAll(".beforeCottHeight").style("opacity")
+        // let currentOpacityCott = d3.selectAll(".fcWaveHeightArrow").style("opacity")
         // Change the opacity: from 0 to 1 or from 1 to 0
         d3.selectAll(".beforeCottHeight").transition().style("opacity", currentOpacity == 0 ? 1:0)
-        d3.selectAll(".waveHeightArrow").transition().style("opacity", currentOpacity == 0 ? 1:0)
+        // d3.selectAll(".fcWaveHeightArrow").transition().style("opacity", currentOpacityCott == 0 ? 1:0)
+        // toggleDirection()
     }
 
     // MOUSEOVER LEGEND ROTTNEST
@@ -164,11 +169,13 @@ export default {
     // TOGGLE DIRECTION ARROWS
     const toggleDirection = function(d) {
         // is the element currently visible ?
-        let currentOpacity = d3.selectAll(".waveHeightArrow").style("opacity")
+        let currentOpacity = d3.selectAll(".fcWaveHeightArrow").style("opacity")
+        let currentOpacityBf = d3.selectAll(".bfWaveHeightArrow").style("opacity")
         // Change the opacity: from 0 to 1 or from 1 to 0
-        d3.selectAll(".waveHeightArrow").transition().style("opacity", currentOpacity == 0 ? 1:0)
-        d3.selectAll(".fcRottHeight").transition().style("opacity", currentOpacity == 0 ? 1:1)
-        d3.selectAll(".beforeCottHeight").transition().style("opacity", currentOpacity == 0 ? 1:1)
+        d3.selectAll(".fcWaveHeightArrow").transition().style("opacity", currentOpacity == 0 ? 1:0)
+        d3.selectAll(".bfWaveHeightArrow").transition().style("opacity", currentOpacityBf == 0 ? 1:0)
+        // d3.selectAll(".fcRottHeight").transition().style("opacity", currentOpacity == 0 ? 1:1)
+        // d3.selectAll(".beforeCottHeight").transition().style("opacity", currentOpacity == 0 ? 1:1)
     }
     
     // --------------------------------------------------------------------------------------
@@ -273,7 +280,7 @@ export default {
       .data(this.data.slice(Math.max(this.data.length - 26, 0)))
       .enter()
       .append("path")
-      .attr('class', 'waveHeightArrow')
+      .attr('class', 'bfWaveHeightArrow waveHeightArrow')
       .attr("d", "M0,-5L10,0L0,5")
       .attr("transform", (d) => { return `translate(${x(parseDateTime(d.DateTime))},${y(d.CottHeight) }) rotate(${d.CottDirection-90})` })
       .attr('fill', colour.navy)
@@ -324,13 +331,13 @@ export default {
       .data(this.data.slice(0,13))
       .enter()
       .append("path")
-      .attr('class', 'waveHeightArrow')
+      .attr('class', 'fcWaveHeightArrow waveHeightArrow')
       .attr("d", "M0,-5L10,0L0,5")
       .attr("transform", (d) => { return `translate(${x(parseDateTime(d.DateTime))},${y(d.CottHeight) }) rotate(${d.CottDirection-90})` })
       .attr('fill', colour.navy)
       .attr('stroke', colour.navy)
       .attr('stroke-width', stroke.pointwidth)
-      .on('mouseover', mouseoverAfterCott)
+      .on('mouseover', mouseoverBeforeCott)
       .on('mouseleave', mouseleave)
 
 
@@ -366,17 +373,26 @@ export default {
     if (this.width > 500) {
       svg.append("circle").attr("cx", legend.xpos).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("circle").attr("cx",legend.xpos).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
-      svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
       
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Forecasted Cottesloe Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Recorded Cottesloe Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
-      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
+      
+      if (this.data.length <= 50) {
+        svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
+        svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
+      }
     }
     else {
       svg.append("circle").attr("cx", legend.xpos + 100).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("circle").attr("cx",legend.xpos + 100).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
       svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 1).text("Forecast Cott Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 25).text("Recorded Cott Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+
+      if (this.data.length <= 50) {
+          svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos + 100},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
+          svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
+      }
+      
     }
     // --------------------------------------------------------------------------------------
 

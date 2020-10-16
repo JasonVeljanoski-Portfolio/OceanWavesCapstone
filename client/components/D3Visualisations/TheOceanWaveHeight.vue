@@ -142,7 +142,6 @@ export default {
             d3.selectAll(".cottHeight").transition().style("opacity", 0.3)
             d3.selectAll(".cottHeightArrow").transition().style("opacity", 0.3)
         }
-      
     }
 
     // MOUSELEAVE LEGEND COTTESLOE
@@ -374,16 +373,20 @@ export default {
     if (this.width > 500) {
       svg.append("circle").attr("cx", legend.xpos).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("circle").attr("cx",legend.xpos).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
-      svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Recorded Rottnest Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Predicted Cottesloe Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
-      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
+
     }
     else {
       svg.append("circle").attr("cx", legend.xpos).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("circle").attr("cx",legend.xpos).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Recorded Rott Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Predicted Cott Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+    }
+
+    if (this.data.length <= 50) {
+      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
+      svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
     }
     // --------------------------------------------------------------------------------------
 

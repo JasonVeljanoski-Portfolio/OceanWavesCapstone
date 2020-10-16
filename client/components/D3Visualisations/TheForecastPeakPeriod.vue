@@ -102,20 +102,27 @@ export default {
       d3.select('#temp_text').remove()
     }
 
-        // TOGGLE ROTTNEST GRAPH
+            // TOGGLE ROTTNEST GRAPH
     const toggleRott = function(d) {
         // is the element currently visible ?
         let currentOpacity = d3.selectAll(".fcRottPeriod").style("opacity")
+        // let currentOpacityCott = d3.selectAll(".bfWaveHeightArrow").style("opacity")
         // Change the opacity: from 0 to 1 or from 1 to 0
         d3.selectAll(".fcRottPeriod").transition().style("opacity", currentOpacity == 0 ? 1:0)
+        // d3.selectAll(".bfWaveHeightArrow").transition().style("opacity", currentOpacityCott == 0 ? 1:0)
+        // toggleDirection()
+
     }
 
     // TOGGLE COTTESLOE GRAPH
     const toggleCott = function(d) {
         // is the element currently visible ?
         let currentOpacity = d3.selectAll(".beforeCottPeriod").style("opacity")
+        // let currentOpacityCott = d3.selectAll(".fcWaveHeightArrow").style("opacity")
         // Change the opacity: from 0 to 1 or from 1 to 0
         d3.selectAll(".beforeCottPeriod").transition().style("opacity", currentOpacity == 0 ? 1:0)
+        // d3.selectAll(".fcWaveHeightArrow").transition().style("opacity", currentOpacityCott == 0 ? 1:0)
+        // toggleDirection()
     }
 
     // MOUSEOVER LEGEND ROTTNEST
@@ -133,9 +140,11 @@ export default {
         // is the element currently visible ?
         let currentOpacity = d3.selectAll(".beforeCottPeriod").style("opacity")
 
-        if (currentOpacity == 1)
-            // Change the opacity: from 0 to 1 or from 1 to 0
-            d3.selectAll(".beforeCottPeriod").transition().style("opacity", 0.3)
+        if (currentOpacity == 1) {
+          // Change the opacity: from 0 to 1 or from 1 to 0
+          d3.selectAll(".beforeCottPeriod").transition().style("opacity", 0.3)
+        }
+  
     }
 
     // MOUSELEAVE LEGEND COTTESLOE
@@ -143,7 +152,7 @@ export default {
         // is the element currently visible ?
         let currentOpacity = d3.selectAll(".beforeCottPeriod").style("opacity")
 
-        if (currentOpacity != 0)
+        if (currentOpacity != 0) {}
             // Change the opacity: from 0 to 1 or from 1 to 0
             d3.selectAll(".beforeCottPeriod").transition().style("opacity", 1)
     }
@@ -156,6 +165,18 @@ export default {
         if (currentOpacity != 0)
             // Change the opacity: from 0 to 1 or from 1 to 0
             d3.selectAll(".fcRottPeriod").transition().style("opacity", 1)
+    }
+
+    // TOGGLE DIRECTION ARROWS
+    const toggleDirection = function(d) {
+        // is the element currently visible ?
+        let currentOpacity = d3.selectAll(".fcWaveHeightArrow").style("opacity")
+        let currentOpacityBf = d3.selectAll(".bfWaveHeightArrow").style("opacity")
+        // Change the opacity: from 0 to 1 or from 1 to 0
+        d3.selectAll(".fcWaveHeightArrow").transition().style("opacity", currentOpacity == 0 ? 1:0)
+        d3.selectAll(".bfWaveHeightArrow").transition().style("opacity", currentOpacityBf == 0 ? 1:0)
+        // d3.selectAll(".fcRottHeight").transition().style("opacity", currentOpacity == 0 ? 1:1)
+        // d3.selectAll(".beforeCottHeight").transition().style("opacity", currentOpacity == 0 ? 1:1)
     }
     // --------------------------------------------------------------------------------------
 
@@ -249,6 +270,7 @@ export default {
       .on('mouseleave', mouseleave)
 
 
+
       
 
     
@@ -278,6 +300,38 @@ export default {
       .attr('cx', (d) => { return x(parseDateTime(d.DateTime)) })
       .attr('cy', (d) => {  return y(d.CottPeakPeriod) })
       .attr('r', 1)
+      .attr('fill', colour.navy)
+      .attr('stroke', colour.navy)
+      .attr('stroke-width', stroke.pointwidth)
+      .on('mouseover', mouseoverBeforeCott)
+      .on('mouseleave', mouseleave)
+
+      // ADD ARROW ON INSTANCE SHOWING DIRECTION
+      svg
+        .append('g')
+        .selectAll('arrows')
+        .data(this.data.slice(Math.max(this.data.length - 26, 0)))
+        .enter()
+        .append("path")
+        .attr('class', 'bfWaveHeightArrow waveHeightArrow')
+        .attr("d", "M0,-5L10,0L0,5")
+        .attr("transform", (d) => { return `translate(${x(parseDateTime(d.DateTime))},${y(d.CottPeakPeriod) }) rotate(${d.CottDirection-90})` })
+        .attr('fill', colour.navy)
+        .attr('stroke', colour.navy)
+        .attr('stroke-width', stroke.pointwidth)
+        .on('mouseover', mouseoverAfterCott)
+        .on('mouseleave', mouseleave)
+
+      // ADD ARROW ON INSTANCE SHOWING DIRECTION
+    svg
+      .append('g')
+      .selectAll('arrows')
+      .data(this.data.slice(0,13))
+      .enter()
+      .append("path")
+      .attr('class', 'fcWaveHeightArrow waveHeightArrow')
+      .attr("d", "M0,-5L10,0L0,5")
+      .attr("transform", (d) => { return `translate(${x(parseDateTime(d.DateTime))},${y(d.CottPeakPeriod) }) rotate(${d.CottDirection-90})` })
       .attr('fill', colour.navy)
       .attr('stroke', colour.navy)
       .attr('stroke-width', stroke.pointwidth)
@@ -318,12 +372,23 @@ export default {
       svg.append("circle").attr("cx",legend.xpos).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Forecasted Cottesloe Peak Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Recorded Cottesloe Peak Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+
+      if (this.data.length <= 50) {
+        svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
+        svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
+      }
+
     }
     else {
       svg.append("circle").attr("cx", legend.xpos + 100).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("circle").attr("cx",legend.xpos + 100).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
       svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 1).text("Forecast Cott Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 25).text("Recorded Cott Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+
+      if (this.data.length <= 50) {
+          svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos + 100},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
+          svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
+      }
     }
     // --------------------------------------------------------------------------------------
 
