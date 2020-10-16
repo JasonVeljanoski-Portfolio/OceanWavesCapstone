@@ -18,6 +18,9 @@
         <li class="nav-item">
           <nuxt-link class="link" to="/contact">Team</nuxt-link>
         </li>
+        <li class="nav-item">
+          <nuxt-link class="link" to="/about">About</nuxt-link>
+        </li>
       </ul>
     </nav>
     <div class="menu">
