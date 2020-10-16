@@ -108,6 +108,7 @@ export default {
         let currentOpacity = d3.selectAll(".fcRottHeight").style("opacity")
         // Change the opacity: from 0 to 1 or from 1 to 0
         d3.selectAll(".fcRottHeight").transition().style("opacity", currentOpacity == 0 ? 1:0)
+        d3.selectAll(".waveHeightArrow").transition().style("opacity", currentOpacity == 0 ? 1:0)
     }
 
     // TOGGLE COTTESLOE GRAPH
@@ -116,6 +117,7 @@ export default {
         let currentOpacity = d3.selectAll(".beforeCottHeight").style("opacity")
         // Change the opacity: from 0 to 1 or from 1 to 0
         d3.selectAll(".beforeCottHeight").transition().style("opacity", currentOpacity == 0 ? 1:0)
+        d3.selectAll(".waveHeightArrow").transition().style("opacity", currentOpacity == 0 ? 1:0)
     }
 
     // MOUSEOVER LEGEND ROTTNEST
@@ -157,6 +159,18 @@ export default {
             // Change the opacity: from 0 to 1 or from 1 to 0
             d3.selectAll(".fcRottHeight").transition().style("opacity", 1)
     }
+
+
+    // TOGGLE DIRECTION ARROWS
+    const toggleDirection = function(d) {
+        // is the element currently visible ?
+        let currentOpacity = d3.selectAll(".waveHeightArrow").style("opacity")
+        // Change the opacity: from 0 to 1 or from 1 to 0
+        d3.selectAll(".waveHeightArrow").transition().style("opacity", currentOpacity == 0 ? 1:0)
+        d3.selectAll(".fcRottHeight").transition().style("opacity", currentOpacity == 0 ? 1:0)
+        d3.selectAll(".beforeCottHeight").transition().style("opacity", currentOpacity == 0 ? 1:0)
+    }
+    
     // --------------------------------------------------------------------------------------
 
 
@@ -250,7 +264,23 @@ export default {
       .on('mouseover', mouseoverAfterCott)
       .on('mouseleave', mouseleave)
 
-
+    
+    
+    // ADD ARROW ON INSTANCE SHOWING DIRECTION
+    svg
+      .append('g')
+      .selectAll('arrows')
+      .data(this.data.slice(Math.max(this.data.length - 26, 0)))
+      .enter()
+      .append("path")
+      .attr('class', 'waveHeightArrow')
+      .attr("d", "M0,-5L10,0L0,5")
+      .attr("transform", (d) => { return `translate(${x(parseDateTime(d.DateTime))},${y(d.CottHeight) }) rotate(${d.CottDirection-90})` })
+      .attr('fill', colour.navy)
+      .attr('stroke', colour.navy)
+      .attr('stroke-width', stroke.pointwidth)
+      .on('mouseover', mouseoverAfterCott)
+      .on('mouseleave', mouseleave)
       
 
     
@@ -286,6 +316,23 @@ export default {
       .on('mouseover', mouseoverBeforeCott)
       .on('mouseleave', mouseleave)
 
+    
+    // ADD ARROW ON INSTANCE SHOWING DIRECTION
+    svg
+      .append('g')
+      .selectAll('arrows')
+      .data(this.data.slice(0,13))
+      .enter()
+      .append("path")
+      .attr('class', 'waveHeightArrow')
+      .attr("d", "M0,-5L10,0L0,5")
+      .attr("transform", (d) => { return `translate(${x(parseDateTime(d.DateTime))},${y(d.CottHeight) }) rotate(${d.CottDirection-90})` })
+      .attr('fill', colour.navy)
+      .attr('stroke', colour.navy)
+      .attr('stroke-width', stroke.pointwidth)
+      .on('mouseover', mouseoverAfterCott)
+      .on('mouseleave', mouseleave)
+
 
 
       svg.append("line")
@@ -319,8 +366,11 @@ export default {
     if (this.width > 500) {
       svg.append("circle").attr("cx", legend.xpos).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("circle").attr("cx",legend.xpos).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+      svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
+      
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Forecasted Cottesloe Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Recorded Cottesloe Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
     }
     else {
       svg.append("circle").attr("cx", legend.xpos + 100).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
