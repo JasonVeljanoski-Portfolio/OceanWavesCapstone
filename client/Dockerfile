@@ -1,21 +1,22 @@
-# [1] BUILD STAGE
+# Dockerfile
+FROM node:11.13.0-alpine
 
-# install node and create app dir in container
-FROM node:10.13.0-alpine as build-stage
-WORKDIR /app
+# create destination directory
+RUN mkdir -p /usr/src/nuxt-app
+WORKDIR /usr/src/nuxt-app
 
-# copy the package.json dependencies and install them
-COPY package*.json ./
+# update and install dependency
+RUN apk update && apk upgrade
+RUN apk add git
+
+# copy the app, note .dockerignore
+COPY . /usr/src/nuxt-app/
 RUN npm install
+RUN npm run build
 
-# copy all the client app contents into /app
-COPY . .
+EXPOSE 3000
 
-# create build
-RUN npm run generate
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=3000
 
-# [2] PRODUCTION STAGE
-FROM nginx:1.19.3-alpine as production-stage
-COPY --from=build-stage /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD [ "nginx", "-g", "daemon off;" ]
+CMD [ "npm", "start" ]
