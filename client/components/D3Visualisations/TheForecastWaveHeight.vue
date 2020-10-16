@@ -167,8 +167,8 @@ export default {
         let currentOpacity = d3.selectAll(".waveHeightArrow").style("opacity")
         // Change the opacity: from 0 to 1 or from 1 to 0
         d3.selectAll(".waveHeightArrow").transition().style("opacity", currentOpacity == 0 ? 1:0)
-        d3.selectAll(".fcRottHeight").transition().style("opacity", currentOpacity == 0 ? 1:0)
-        d3.selectAll(".beforeCottHeight").transition().style("opacity", currentOpacity == 0 ? 1:0)
+        d3.selectAll(".fcRottHeight").transition().style("opacity", currentOpacity == 0 ? 1:1)
+        d3.selectAll(".beforeCottHeight").transition().style("opacity", currentOpacity == 0 ? 1:1)
     }
     
     // --------------------------------------------------------------------------------------
