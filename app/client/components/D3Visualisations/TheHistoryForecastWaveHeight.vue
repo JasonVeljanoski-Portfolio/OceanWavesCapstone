@@ -176,7 +176,7 @@ export default {
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
-
+    //  x0x 
     // ADD X AXIS --> DATE FORMAT
     var formatMillisecond = d3.timeFormat(".%L"),
         formatSecond = d3.timeFormat(":%S"),
@@ -221,12 +221,11 @@ export default {
       .attr('color', colour.navy)
 
 
-
     // [ Construct After (Predict) Data (last 25 data points) ]
     // ADD LINE PATH
     svg
       .append('path')
-      .datum(this.data.slice(Math.max(this.data.length - 26, 0)))
+      .datum(this.data)
       .attr('fill', 'none')
       .attr('stroke', colour.red)
       .attr('stroke-width', stroke.linewidth)
@@ -234,19 +233,19 @@ export default {
       .attr('d',
         d3.line()
           .x((d) => { return x(parseDateTime(d.DateTime)) })
-          .y((d) => { return y(d.CottHeight) })
+          .y((d) => { return y(d.DynPredCottHeight) })
       )
 
     // ADD INSTANCE POINTS
     svg
       .append('g')
       .selectAll('dot')
-      .data(this.data.slice(Math.max(this.data.length - 26, 0)))
+      .data(this.data)
       .enter()
       .append('circle')
       .attr('class', 'fcRottHeight')
       .attr('cx', (d) => { return x(parseDateTime(d.DateTime)) })
-      .attr('cy', (d) => { return y(d.CottHeight) })
+      .attr('cy', (d) => { return y(d.DynPredCottHeight) })
       .attr('r', 1)
       .attr('fill', colour.navy)
       .attr('stroke', colour.navy)
@@ -260,7 +259,7 @@ export default {
     // ADD LINE PATH
     svg
       .append('path')
-      .datum(this.outcome)
+      .datum(this.data.slice(0, 13))
       .attr('fill', 'none')
       .attr('stroke', colour.blue)
       .attr('stroke-width', stroke.linewidth)
@@ -275,7 +274,7 @@ export default {
     svg
       .append('g')
       .selectAll('dot')
-      .data(this.outcome)
+      .data(this.data.slice(0, 13))
       .enter()
       .append('circle')
       .attr('class', 'beforeCottHeight')

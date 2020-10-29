@@ -1,9 +1,10 @@
 <template>
   <div>
     <div class="flexcontainer">
+
       <BaseAvatarTile
         title="Jason Veljanoski"
-        description="21980294 - A proud UWA student."
+        description="21980294 - A proud UWA student. This is some text to pass the lines. We need to fill this up with space"
         :has-facebook="false"
         :has-instagram="false"
         :has-linkedin="true"
@@ -12,12 +13,27 @@
         link-linkedin="https://www.linkedin.com/in/jason-veljanoski"
         link-youtube="https://www.youtube.com/channel/UCQiAdzUeiuYTaVRe_rwAP7A/featured?view_as=subscriber"
       >
-        <BaseSampleAvatar />
+        <BaseJasonAvatar />
       </BaseAvatarTile>
+
+
+      <BaseAvatarTile
+        title="Johnny Barrett"
+        description="22683565 - A proud UWA student. This is some text to pass the lines."
+        :has-facebook="false"
+        :has-instagram="true"
+        :has-linkedin="true"
+        :has-twitter="true"
+        :has-youtube="false"
+      >
+        <BaseJohnnyAvatar />
+      </BaseAvatarTile>
+
+
 
       <BaseAvatarTile
         title="Teggs Lou"
-        description="22839079 - A proud UWA student."
+        description="22839079 - A proud UWA student. This is some text to pass the lines. We need to fill this up with space"
         :has-facebook="false"
         :has-instagram="false"
         :has-linkedin="true"
@@ -26,25 +42,17 @@
         :has-we-chat="true"
         @togglewechat="showwechat('Teggs wechat id')"
       >
-        <BaseSampleAvatar />
+        <BaseTeggsAvatar />
       </BaseAvatarTile>
 
-      <BaseAvatarTile
-        title="Johnny Barrett"
-        description="22683565 - A proud UWA student."
-        :has-facebook="false"
-        :has-instagram="true"
-        :has-linkedin="true"
-        :has-twitter="true"
-        :has-youtube="false"
-      >
-        <BaseSampleAvatar />
-      </BaseAvatarTile>
     </div>
+
+
+
     <div class="flexcontainer">
       <BaseAvatarTile
         title="Ammar Pervez"
-        description="22660382 - A proud UWA student."
+        description="22660382 - A proud UWA student. This is some text to pass the lines."
         :has-facebook="true"
         :has-instagram="false"
         :has-linkedin="true"
@@ -52,11 +60,11 @@
         :has-youtube="false"
         link-linkedin="https://www.linkedin.com"
       >
-        <BaseSampleAvatar />
+        <BaseAmmarAvatar />
       </BaseAvatarTile>
       <BaseAvatarTile
         title="Yajun Zhou"
-        description="22600288 - A proud UWA student."
+        description="22600288 - A proud UWA student. This is some text to pass the lines. We need to fill this up with space"
         :has-facebook="false"
         :has-instagram="false"
         :has-linkedin="true"
@@ -66,7 +74,7 @@
         link-linkedin="https://www.linkedin.com"
         @togglewechat="showwechat('Yajuns wechat id')"
       >
-        <BaseSampleAvatar />
+        <BaseYijanAvatar />
       </BaseAvatarTile>
     </div>
 
@@ -87,13 +95,23 @@
 import BaseAvatarTile from '@/components/SafeHarbourUtils/BaseAvatarTile'
 import BaseSampleAvatar from '@/components/Utils/SVG/BaseSampleAvatar'
 import BaseIconCross from '@/components/Utils/SVG/navigation/BaseIconCross'
+import BaseAmmarAvatar from '@/components/SafeHarbourUtils/BaseAmmarAvatar'
+import BaseYijanAvatar from '@/components/SafeHarbourUtils/BaseYijanAvatar'
+import BaseJasonAvatar from '@/components/SafeHarbourUtils/BaseJasonAvatar'
+import BaseJohnnyAvatar from '@/components/SafeHarbourUtils/BaseJohnnyAvatar'
+import BaseTeggsAvatar from '@/components/SafeHarbourUtils/BaseTeggsAvatar'
+
 
 export default {
   name: 'CoursesPage',
   components: {
     BaseAvatarTile,
     BaseSampleAvatar,
-    BaseIconCross
+    BaseIconCross,
+    BaseYijanAvatar,
+    BaseJasonAvatar,
+    BaseJohnnyAvatar,
+    BaseTeggsAvatar
   },
   data() {
     return {
