@@ -251,9 +251,8 @@ export default {
       .attr('d',
         d3.line()
           .x((d) => { return x(parseDateTime(d.DateTime)) })
-          .y((d) => { return y(d.CottHeight) })
+          .y((d) => { return y(d.DynPredCottHeight) })
       )
-    
     // ADD INSTANCE POINTS
     svg
       .append('g')
@@ -263,7 +262,7 @@ export default {
       .append('circle')
       .attr('class', 'fcRottHeight')
       .attr('cx', (d) => { return x(parseDateTime(d.DateTime)) })
-      .attr('cy', (d) => { return y(d.CottHeight) })
+      .attr('cy', (d) => { return y(d.DynPredCottHeight) })
       .attr('r', 1)
       .attr('fill', colour.navy)
       .attr('stroke', colour.navy)
@@ -273,21 +272,21 @@ export default {
 
     
     
-    // ADD ARROW ON INSTANCE SHOWING DIRECTION
-    svg
-      .append('g')
-      .selectAll('arrows')
-      .data(this.data.slice(Math.max(this.data.length - 12, 0)))
-      .enter()
-      .append("path")
-      .attr('class', 'bfWaveHeightArrow waveHeightArrow')
-      .attr("d", "M0,-5L10,0L0,5")
-      .attr("transform", (d) => { return `translate(${x(parseDateTime(d.DateTime))},${y(d.CottHeight) }) rotate(${d.CottDirection-90})` })
-      .attr('fill', colour.navy)
-      .attr('stroke', colour.navy)
-      .attr('stroke-width', stroke.pointwidth)
-      .on('mouseover', mouseoverAfterCott)
-      .on('mouseleave', mouseleave)
+    // // ADD ARROW ON INSTANCE SHOWING DIRECTION
+    // svg
+    //   .append('g')
+    //   .selectAll('arrows')
+    //   .data(this.data.slice(Math.max(this.data.length - 12, 0)))
+    //   .enter()
+    //   .append("path")
+    //   .attr('class', 'bfWaveHeightArrow waveHeightArrow')
+    //   .attr("d", "M0,-5L10,0L0,5")
+    //   .attr("transform", (d) => { return `translate(${x(parseDateTime(d.DateTime))},${y(d.CottHeight) }) rotate(${d.CottDirection-90})` })
+    //   .attr('fill', colour.navy)
+    //   .attr('stroke', colour.navy)
+    //   .attr('stroke-width', stroke.pointwidth)
+    //   .on('mouseover', mouseoverAfterCott)
+    //   .on('mouseleave', mouseleave)
       
 
     
@@ -324,23 +323,23 @@ export default {
       .on('mouseleave', mouseleave)
 
     
-    // ADD ARROW ON INSTANCE SHOWING DIRECTION
-    svg
-      .append('g')
-      .selectAll('arrows')
-      .data(this.data.slice(0,13))
-      .enter()
-      .append("path")
-      .attr('class', 'fcWaveHeightArrow waveHeightArrow')
-      .attr("d", "M0,-5L10,0L0,5")
-      .attr("transform", (d) => { return `translate(${x(parseDateTime(d.DateTime))},${y(d.CottHeight) }) rotate(${d.CottDirection-90})` })
-      .attr('fill', colour.navy)
-      .attr('stroke', colour.navy)
-      .attr('stroke-width', stroke.pointwidth)
-      .on('mouseover', mouseoverBeforeCott)
-      .on('mouseleave', mouseleave)
+//     // ADD ARROW ON INSTANCE SHOWING DIRECTION
+//     svg
+//       .append('g')
+//       .selectAll('arrows')
+//       .data(this.data.slice(0,13))
+//       .enter()
+//       .append("path")
+//       .attr('class', 'fcWaveHeightArrow waveHeightArrow')
+//       .attr("d", "M0,-5L10,0L0,5")
+//       .attr("transform", (d) => { return `translate(${x(parseDateTime(d.DateTime))},${y(d.CottHeight) }) rotate(${d.CottDirection-90})` })
+//       .attr('fill', colour.navy)
+//       .attr('stroke', colour.navy)
+//       .attr('stroke-width', stroke.pointwidth)
+//       .on('mouseover', mouseoverBeforeCott)
+//       .on('mouseleave', mouseleave)
 
-console.log(this.data)
+// console.log(this.data)
 
       svg.append("line")
         .attr("x1", x(parseDateTime(this.data[12].DateTime)))  //<<== change your code here
@@ -377,10 +376,10 @@ console.log(this.data)
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Forecasted Cottesloe Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Recorded Cottesloe Wave Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
       
-      if (this.data.length <= 50) {
-        svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
-        svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
-      }
+      // if (this.data.length <= 50) {
+      //   svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
+      //   svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
+      // }
     }
     else {
       svg.append("circle").attr("cx", legend.xpos + 100).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
@@ -388,10 +387,10 @@ console.log(this.data)
       svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 1).text("Forecast Cott Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 25).text("Recorded Cott Height").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
 
-      if (this.data.length <= 50) {
-          svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos + 100},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
-          svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
-      }
+      // if (this.data.length <= 50) {
+      //     svg.append("path").attr("d", "M0,-5L10,0L0,5").attr("transform", `translate(${legend.xpos + 100},${legend.ypos -24}) rotate(180)`).style("fill", colour.navy).style("cursor", "pointer").on("click", toggleDirection)
+      //     svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos - 24).text("Show Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleDirection)
+      // }
       
     }
     // --------------------------------------------------------------------------------------
