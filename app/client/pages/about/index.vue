@@ -1,5 +1,12 @@
 <template>
   <div>
+    - Definelty for explainability!
+    - Explain what each model is (height, period, direction)
+    - Explain errors
+    - Maybe SWAN
+    - Upload notebooks?
+
+
     <h1>The problem</h1>
     <h1>Current solutions</h1>
     <h1>Our solution</h1>

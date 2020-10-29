@@ -7,6 +7,9 @@ import json
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
+# LOAD DATA GLOBALLY
+df = pd.read_csv('data/ocean-waves-clean.csv')
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -76,7 +79,7 @@ def oceanwaves():
 
   # -------------------------------------
 
-  df = pd.read_csv('data/ocean-waves.csv')
+  # df = pd.read_csv('data/ocean-waves-clean.csv')
 
   # -------------------------------------
   
@@ -173,7 +176,7 @@ def historywaves():
   }
   # -------------------------------------
 
-  df = pd.read_csv('data/ocean-waves.csv')
+  # df = pd.read_csv('data/ocean-waves-clean.csv')
   chart_data = df.to_dict(orient='records')
 
 
