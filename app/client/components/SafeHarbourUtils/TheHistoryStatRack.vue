@@ -3,9 +3,9 @@
     <BaseStatTile
       :title="`${this.graph} Confidence Score`"
       :number="confidence"
-      :gtThreshold="90"
-      :ltThreshold="89"
-      description="This confidence score is a root mean square error."
+      :gtThreshold="0"
+      :ltThreshold="0"
+      :description="`Root mean square error of ${this.time}.`"
       tag=""
     />
     <BaseStatTile
