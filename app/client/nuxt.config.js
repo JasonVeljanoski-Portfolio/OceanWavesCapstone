@@ -50,7 +50,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'https://server-oceanwaves.herokuapp.com/' || 'http://127.0.0.1:5000/'
+    baseURL: 'http://127.0.0.1:5000/' // 'https://server-oceanwaves.herokuapp.com/' ||
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
