@@ -44,7 +44,7 @@ export default {
     // MOUSEOVER CALLBACK
     const mouseoverBeforeCott = function (event, d) {
       // Use D3 to select element, change color and size
-      d3.select(this)
+      d3.select(this.data)
         .attr('stroke', colour.blue)
         .attr('fill', colour.blue)
         .attr('cursor', 'pointer')
@@ -243,7 +243,7 @@ export default {
     // ADD LINE PATH
     svg
       .append('path')
-      .datum(this.data.slice(Math.max(this.data.length - 26, 0)))
+      .datum(this.data.slice(Math.max(this.data.length - 12, 0)))
       .attr('fill', 'none')
       .attr('stroke', colour.red)
       .attr('stroke-width', stroke.linewidth)
@@ -253,12 +253,12 @@ export default {
           .x((d) => { return x(parseDateTime(d.DateTime)) })
           .y((d) => { return y(d.CottHeight) })
       )
-
+    
     // ADD INSTANCE POINTS
     svg
       .append('g')
       .selectAll('dot')
-      .data(this.data.slice(Math.max(this.data.length - 26, 0)))
+      .data(this.data.slice(Math.max(this.data.length - 12, 0)))
       .enter()
       .append('circle')
       .attr('class', 'fcRottHeight')
@@ -277,7 +277,7 @@ export default {
     svg
       .append('g')
       .selectAll('arrows')
-      .data(this.data.slice(Math.max(this.data.length - 26, 0)))
+      .data(this.data.slice(Math.max(this.data.length - 12, 0)))
       .enter()
       .append("path")
       .attr('class', 'bfWaveHeightArrow waveHeightArrow')
@@ -340,7 +340,7 @@ export default {
       .on('mouseover', mouseoverBeforeCott)
       .on('mouseleave', mouseleave)
 
-
+console.log(this.data)
 
       svg.append("line")
         .attr("x1", x(parseDateTime(this.data[12].DateTime)))  //<<== change your code here

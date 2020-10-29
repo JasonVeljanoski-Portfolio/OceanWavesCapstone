@@ -4,7 +4,7 @@
       <img class="logo" src="~/assets/logos/safeharbourTextLogo.svg" />
     </nuxt-link>
     <div class="spacer" />
-    <div v-if="ready" class="time">Last Updated {{ oceanData.data[oceanData.data.length-1].DateTime }}</div>
+    <div v-if="ready" class="time">Last Updated {{ oceanData.data[oceanData.data.length-6-1].DateTime }}</div>
     <div class="spacer" />
     <!-- Nav Links -->
     <nav class="navigation-items">
