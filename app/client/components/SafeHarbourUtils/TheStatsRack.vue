@@ -9,19 +9,19 @@
       tag="%"
     />
     <BaseStatTile
-      :title="`Max Wave Height in ${this.time}`"
+      :title="`Max Cott Wave Height in ${this.time}`"
       :number="height"
-      :gtThreshold="1"
-      :ltThreshold="0.94"
+      :gtThreshold="2.0"
+      :ltThreshold="1.7"
       :flip="true"
       description="This is the max [time] wave height. More stuff goes here..."
       tag="m"
     />
     <BaseStatTile
-      :title="`Max Wave Period in ${this.time}`"
+      :title="`Max Cott Wave Period in ${this.time}`"
       :number="period"
-      :gtThreshold="24"
-      :ltThreshold="20"
+      :gtThreshold="15"
+      :ltThreshold="13"
       :flip="true"
       description="This is the max [time] wave period. More stuff goes here..."
       tag="s"

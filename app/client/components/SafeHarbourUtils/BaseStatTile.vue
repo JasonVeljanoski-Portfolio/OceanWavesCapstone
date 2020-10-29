@@ -1,7 +1,7 @@
 <template>
     <div class="tile flexbox">
       <section class="content">
-        <span :style="_color" class="stat"><BaseNumberAnimate :number="number" :tag="tag"></BaseNumberAnimate></span>
+        <div :style="_color" class="stat flexbox">{{number==0?'--':number}}{{tag}}</div>
         <div class="title">{{ title }}</div>
         <p class="description">{{ description }}</p>
       </section>
@@ -16,52 +16,52 @@ export default {
     title: {
       type: String,
       required: true,
-      validator(value) {
-        return typeof value === 'string'
-      }
+      // validator(value) {
+      //   return typeof value === 'string'
+      // }
     },
     description: {
       type: String,
       required: true,
-      validator(value) {
-        return typeof value === 'string'
-      }
+      // validator(value) {
+      //   return typeof value === 'string'
+      // }
     },
     number: {
       type: Number,
       required: true,
-      validator(value) {
-        return typeof value === 'number'
-      }
+      // validator(value) {
+      //   return typeof value === 'number'
+      // }
     },
     tag: {
       type: String,
       required: true,
-      validator(value) {
-        return typeof value === 'string'
-      }
+      // validator(value) {
+      //   return typeof value === 'string'
+      // }
     },
     gtThreshold: {
       type: Number,
       required: true,
-      validator(value) {
-        return typeof value === 'number'
-      }
+      // validator(value) {
+      //   return typeof value === 'number'
+      // }
     },
     ltThreshold: {
       type: Number,
       required: true,
-      validator(value) {
-        return typeof value === 'number'
-      }
+      // validator(value) {
+      //   return typeof value === 'number'
+      // }
     },
     flip: {
       type: Boolean,
       required: false,
       default: false,
-      validator(value) {
-        return typeof value === 'boolean'
-      }
+      // validator(value) {
+      //   return typeof value === 'boolean'
+      // }
     }
   },
   computed: {
@@ -142,9 +142,11 @@ mobile()
   font-weight 600
   padding 15px 15px 0 15px
   text-align center
+  width 100%
+  height 100px
 
 .description
-  text-align left
+  text-align center
   line-height normal
   margin-top 10px
   font-size 11pt

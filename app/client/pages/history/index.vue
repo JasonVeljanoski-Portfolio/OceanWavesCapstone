@@ -35,7 +35,7 @@
     </BaseContainer>
 
     <div v-if=" ! (showForecast && (activeGraphItem === graphitmes[1] || activeGraphItem === graphitmes[2]) )">
-      <TheStatsRack :confidence="confidence" :height="height" :period="period" :time="time" :graph="activeGraphItem" />
+      <TheHistoryStatsRack :confidence="confidence" :height="height" :period="period" :time="time" :graph="activeGraphItem" />
     </div>
 
   </div>
@@ -53,7 +53,7 @@ import TheForecastDirection from '@/components/D3Visualisations/TheForecastDirec
 import TheHistoryWaveHeight from '@/components/D3Visualisations/TheHistoryWaveHeight'
 import TheHistoryPeakPeriod from '@/components/D3Visualisations/TheHistoryPeakPeriod'
 import TheHistoryDirection from '@/components/D3Visualisations/TheHistoryDirection'
-import TheStatsRack from '@/components/SafeHarbourUtils/TheStatsRack'
+import TheHistoryStatsRack from '@/components/SafeHarbourUtils/TheHistoryStatRack'
 import BaseComingSoon from '@/components/SafeHarbourUtils/BaseComingSoon'
 
 export default {
@@ -69,7 +69,7 @@ export default {
     TheHistoryWaveHeight,
     TheHistoryPeakPeriod,
     TheHistoryDirection,
-    TheStatsRack,
+    TheHistoryStatsRack,
     BaseComingSoon
   },
   data() {
