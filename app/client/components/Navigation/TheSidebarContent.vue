@@ -20,11 +20,11 @@
         <nuxt-link class="link" to="/history">
           <li class="nav-item">History</li>
         </nuxt-link>
-        <nuxt-link class="link" to="/contact">
-          <li class="nav-item">Team</li>
-        </nuxt-link>
         <nuxt-link class="link" to="/about">
           <li class="nav-item">About</li>
+        </nuxt-link>
+        <nuxt-link class="link" to="/contact">
+          <li class="nav-item">Team</li>
         </nuxt-link>
       </ul>
     </nav>
