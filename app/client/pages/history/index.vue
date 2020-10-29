@@ -15,8 +15,12 @@
 
         <div v-if="showForecast">
           <TheHistoryForecastWaveHeight :width="chartWidth" :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[0]" />
-          <TheHistoryForecastPeakPeriod :width="chartWidth" :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[1]" />
-          <TheHistoryForecastDirection :width="chartWidth" :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[2]" />
+          
+          <BaseComingSoon v-show="activeGraphItem === graphitmes[1]" />
+          <!-- <TheHistoryForecastPeakPeriod :width="chartWidth" :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[1]" /> -->
+
+          <BaseComingSoon v-show="activeGraphItem === graphitmes[2]" />
+          <!-- <TheHistoryForecastDirection :width="chartWidth" :outcome="historyData.forecastOutcome" :data="historyData.forecast" v-show="activeGraphItem === graphitmes[2]" /> -->
         </div>
         <div v-else>
           <TheHistoryWaveHeight :width="chartWidth" v-show="activeGraphItem === graphitmes[0]" :data="historyData.history.slice(historyData.history.length-upperbound-1, historyData.history.length-1)" />
@@ -28,7 +32,10 @@
 
     </div>
     </BaseContainer>
-    <TheStatsRack :confidence="confidence" :height="height" :period="period" :time="time" :graph="activeGraphItem" />
+
+    <div v-if=" ! (showForecast && (activeGraphItem === graphitmes[1] || activeGraphItem === graphitmes[2]) )">
+      <TheStatsRack :confidence="confidence" :height="height" :period="period" :time="time" :graph="activeGraphItem" />
+    </div>
 
   </div>
 </template>
@@ -46,6 +53,7 @@ import TheHistoryWaveHeight from '@/components/D3Visualisations/TheHistoryWaveHe
 import TheHistoryPeakPeriod from '@/components/D3Visualisations/TheHistoryPeakPeriod'
 import TheHistoryDirection from '@/components/D3Visualisations/TheHistoryDirection'
 import TheStatsRack from '@/components/SafeHarbourUtils/TheStatsRack'
+import BaseComingSoon from '@/components/SafeHarbourUtils/BaseComingSoon'
 
 export default {
   name: 'D3Demos',
@@ -60,7 +68,8 @@ export default {
     TheHistoryWaveHeight,
     TheHistoryPeakPeriod,
     TheHistoryDirection,
-    TheStatsRack
+    TheStatsRack,
+    BaseComingSoon
   },
   data() {
       return {

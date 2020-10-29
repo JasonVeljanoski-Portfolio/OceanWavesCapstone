@@ -15,8 +15,10 @@
 
         <div v-if="showForecast">
           <TheForecastWaveHeight :width="chartWidth" :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[0]" />
-          <TheForecastPeakPeriod :width="chartWidth" :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[1]" />
-          <TheForecastDirection :width="radarWidth" :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[2]" />
+          <!-- <TheForecastPeakPeriod :width="chartWidth" :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[1]" /> -->
+          <BaseComingSoon v-show="activeGraphItem === graphitmes[1]" />
+          <!-- <TheForecastDirection :width="radarWidth" :data="oceanData.forecast" v-show="activeGraphItem === graphitmes[2]" /> -->
+          <BaseComingSoon v-show="activeGraphItem === graphitmes[2]" />
         </div>
         <div v-else>
           <TheOceanWaveHeight :width="chartWidth" v-show="activeGraphItem === graphitmes[0]" :data="oceanData.data.slice(oceanData.data.length-upperbound-1, oceanData.data.length-1)" />
@@ -28,7 +30,9 @@
 
     </div>
     </BaseContainer>
-    <TheStatsRack :confidence="confidence" :height="height" :period="period" :time="time" :graph="activeGraphItem" />
+    <div v-if=" ! (showForecast && (activeGraphItem === graphitmes[1] || activeGraphItem === graphitmes[2]) )">
+      <TheStatsRack :confidence="confidence" :height="height" :period="period" :time="time" :graph="activeGraphItem" />
+    </div>
 
 
   </div>
@@ -46,6 +50,7 @@ import TheOceanPeakPeriod from '@/components/D3Visualisations/TheOceanPeakPeriod
 import TheOceanRadar from '@/components/D3Visualisations/TheOceanRadar'
 import TheStatsRack from '@/components/SafeHarbourUtils/TheStatsRack'
 import TheDemoResponsiveD3 from '@/components/D3Visualisations/TheDemoResponsiveD3'
+import BaseComingSoon from '@/components/SafeHarbourUtils/BaseComingSoon'
 
 export default {
   name: 'D3Demos',
@@ -59,7 +64,8 @@ export default {
     TheOceanPeakPeriod,
     TheOceanRadar,
     TheStatsRack,
-    TheDemoResponsiveD3
+    TheDemoResponsiveD3,
+    BaseComingSoon
   },
   data() {
       return {
