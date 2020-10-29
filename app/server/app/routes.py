@@ -498,11 +498,6 @@ dummyForecast_data = S2D_Final_df.tail(steps_future).to_dict(orient='records')
 # convert to array [last 6hrs, next 12hrs]
 arrayForecast = np.concatenate((fake6hrBeforecast_data, dummyForecast_data)).tolist() # concatenate 2 numpy arrays: row-wise
 
-# --------------------------------------
-# S2D_Final_df.tail(steps_future)
-# print(dummyForecast.head())
-# print(S2D_Final_df.tail(steps_future))
-# --------------------------------------
 
 
 
@@ -734,7 +729,7 @@ def historywaves():
   # dummyForecast_data = dummyForecast.to_dict(orient='records')
 
   # convert to array [last 6hrs, next 12hrs]
-  arrayForecast = np.concatenate((fake6hrBeforecast_data, dummyForecast_data)).tolist() # concatenate 2 numpy arrays: row-wise
+  # arrayForecast = np.concatenate((fake6hrBeforecast_data, dummyForecast_data)).tolist() # concatenate 2 numpy arrays: row-wise
 
   # --------------------------------------
 
@@ -742,7 +737,7 @@ def historywaves():
   forecast_outcome = last38.to_dict(orient='records')
   # --------------------------------------
 
-
+  print(arrayForecast[0])
   data['data'] = { 'history': history_data, 'summary_history': history_stats, 'forecast': arrayForecast, 'forecastOutcome': forecast_outcome }
   data['status'] = 200
 
