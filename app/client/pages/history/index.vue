@@ -10,6 +10,7 @@
         <BaseToggleRack @toggle="reScale($event)" :items="scaleitems" />
 
       </div>
+      
 
       <div :key="componentKey">
 

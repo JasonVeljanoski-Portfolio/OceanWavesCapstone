@@ -81,10 +81,10 @@ export default {
           return x(parseDateTime(d.DateTime)) - 30
         })
         .attr('y', () => {
-          return y(d.CottDirectionHistory) - 15
+          return y(d.CottDirectionPred) - 15
         })
         .text(() => {
-          return parseFloat(d.CottDirectionHistory).toFixed(2)
+          return parseFloat(d.CottDirectionPred).toFixed(2)
         }) // Value of the text
     }
 
@@ -206,7 +206,7 @@ export default {
     // ADD Y AXIS
     const y = d3
       .scaleLinear()
-      .domain([ 0, d3.max(this.data, (d) => { return d.CottDirectionHistory }), ]) // bound Y by RottHeight as Rott >> Cott
+      .domain([ 0, d3.max(this.data, (d) => { return d.CottDirection }), ]) // bound Y by RottHeight as Rott >> Cott
       .range([height, 0])
     svg
       .append('g')
@@ -260,7 +260,7 @@ export default {
       .attr('d',
         d3.line()
           .x((d) => { return x(parseDateTime(d.DateTime)) })
-          .y((d) => { return y(d.CottDirectionHistory) })
+          .y((d) => { return y(d.CottDirectionPred) })
       )
 
     // ADD INSTANCE POINTS
@@ -272,7 +272,7 @@ export default {
       .append('circle')
       .attr('class', 'rottDirection')
       .attr('cx', (d) => { return x(parseDateTime(d.DateTime)) })
-      .attr('cy', (d) => { return y(d.CottDirectionHistory) })
+      .attr('cy', (d) => { return y(d.CottDirectionPred) })
       .attr('r', (d) => this.data.length <= 50 ? 1:0)
       .attr('fill', colour.navy)
       .attr('stroke', colour.navy)

@@ -17,9 +17,6 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 df = pd.read_csv('data/ocean-waves-clean.csv')
 
 
-
-# MACHINE LEARNING AND DATA PREPARATION ------------------------------------------------------------------------------------------
-
 # ---------------------------------------------------------------------------------------------------------------------------------
 # DATA PREPARATION 
 # ---------------------------------------------------------------------------------------------------------------------------------
@@ -269,6 +266,19 @@ stats = {
 
 
 
+# ---------------------------------------------------------------------------------------------------------------------------------
+# HISTORY ROUTE
+# ---------------------------------------------------------------------------------------------------------------------------------
+preds = predictions_df.copy()
+preds = preds[["DateTime", "CottHeight", "CottPeakPeriod", "CottDirection"]]
+preds = preds.rename(columns={"CottHeight": "CottHeightPred", "CottPeakPeriod": "CottPeakPeriodPred", "CottDirection": "CottDirectionPred"})
+
+history_data = pd.concat([preds, waves[["CottHeight", "CottPeakPeriod", "CottDirection"]]], axis=1).to_dict(orient='records')
+
+
+
+
+
 
 # ROUTES
 @app.route('/')
@@ -464,9 +474,9 @@ def historywaves():
   signal.rename(columns={'CottHeight': 'CottHeightHistory', 'CottPeakPeriod': 'CottPeakPeriodHistory', 'CottDirection': 'CottDirectionHistory'}, inplace=True)
   df_horizontal_stack = pd.concat([df, signal], axis=1)
 
-  history_data = df_horizontal_stack.to_dict(orient='records')
+  # history_data = df_horizontal_stack.to_dict(orient='records')
 
-
+  # print(df_horizontal_stack.tail())
   # ----------------------------------------
 
   # MAKE DUMMY FORECAST DATA ------------
