@@ -4,7 +4,7 @@
 
       <BaseAvatarTile
         title="Jason Veljanoski"
-        description="21980294 - A proud UWA student. This is some text to pass the lines. We need to fill this up with space"
+        description="21980294 - A proud UWA student."
         :has-facebook="false"
         :has-instagram="false"
         :has-linkedin="true"
@@ -19,11 +19,12 @@
 
       <BaseAvatarTile
         title="Johnny Barrett"
-        description="22683565 - A proud UWA student. This is some text to pass the lines."
+        description="22683565 - A proud UWA student."
         :has-facebook="false"
-        :has-instagram="true"
+        :has-instagram="false"
         :has-linkedin="true"
-        :has-twitter="true"
+        link-linkedin="https://www.linkedin.com/in/johnny-barrett"
+        :has-twitter="false"
         :has-youtube="false"
       >
         <BaseJohnnyAvatar />
@@ -33,10 +34,10 @@
 
       <BaseAvatarTile
         title="Teggs Lou"
-        description="22839079 - A proud UWA student. This is some text to pass the lines. We need to fill this up with space"
+        description="22839079 - A proud UWA student."
         :has-facebook="false"
         :has-instagram="false"
-        :has-linkedin="true"
+        :has-linkedin="false"
         :has-twitter="false"
         :has-youtube="false"
         :has-we-chat="true"
@@ -48,26 +49,25 @@
     </div>
 
 
-
     <div class="flexcontainer">
       <BaseAvatarTile
         title="Ammar Pervez"
-        description="22660382 - A proud UWA student. This is some text to pass the lines."
-        :has-facebook="true"
+        description="22660382 - A proud UWA student."
+        :has-facebook="false"
         :has-instagram="false"
         :has-linkedin="true"
         :has-twitter="false"
         :has-youtube="false"
-        link-linkedin="https://www.linkedin.com"
+        link-linkedin="https://www.linkedin.com/in/ammar-m-pervez-0a488b42/"
       >
         <BaseAmmarAvatar />
       </BaseAvatarTile>
       <BaseAvatarTile
         title="Yajun Zhou"
-        description="22600288 - A proud UWA student. This is some text to pass the lines. We need to fill this up with space"
+        description="22600288 - A proud UWA student."
         :has-facebook="false"
         :has-instagram="false"
-        :has-linkedin="true"
+        :has-linkedin="false"
         :has-twitter="false"
         :has-youtube="false"
         :has-we-chat="true"
