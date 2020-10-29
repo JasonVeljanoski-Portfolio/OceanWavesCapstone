@@ -17,7 +17,8 @@ export default {
     script: [
       {
         src: 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js',
-        src: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML-full,Safe'
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML-full,Safe',
+        src: '//mozilla.github.io/pdf.js/build/pdf.js'
       }
     ]
   },
