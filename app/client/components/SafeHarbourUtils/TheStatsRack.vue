@@ -1,29 +1,29 @@
 <template>
   <div class="flexcontainer">
     <BaseStatTile
-      :title="`${this.graph} Confidence Score`"
+      :title="`${this.graph} Confidence Score Vaue in ${this.time}`"
       :number="confidence"
       :gtThreshold="90"
       :ltThreshold="89"
-      description="This confidence comes from being very confident about our results."
-      tag="%"
+      :description="`RMSE of ${this.time} between predicted and recoreded. See history page.`"
+      tag=""
     />
     <BaseStatTile
-      :title="`Max Cott Wave Height in ${this.time}`"
+      :title="`Max Predicted Cott Wave Height in ${this.time}`"
       :number="height"
       :gtThreshold="2.0"
       :ltThreshold="1.7"
       :flip="true"
-      description="This is the max [time] wave height. More stuff goes here..."
+      description="The wave height is high. We recommend not docking."
       tag="m"
     />
     <BaseStatTile
-      :title="`Max Cott Wave Period in ${this.time}`"
+      :title="`Max Predicted Cott Wave Period in ${this.time}`"
       :number="period"
       :gtThreshold="15"
       :ltThreshold="13"
       :flip="true"
-      description="This is the max [time] wave period. More stuff goes here..."
+      :description="period==0?'The model to forecast peak wave period is coming soon.' : 'You should be mindful of the long period when docking at Cottesloe.'"
       tag="s"
     />
   </div>
