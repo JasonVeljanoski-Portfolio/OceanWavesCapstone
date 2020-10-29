@@ -121,6 +121,30 @@ export default {
       },
       reScale(event) {
         this.activeTime = event
+
+
+        // ERROR STATS - HARD CODED (Whooops!)
+        // # MONTH.
+        // rmse_height_mnth = 0.1752
+        // rmse_period_mnth = 11.83
+        // rmse_dir_mnth = 19.99
+
+        // # WEEK.
+        // rmse_height_week = 0.1462
+        // rmse_period_week = 13.01
+        // rmse_dir_week = 16.77
+
+        // # DAY.
+        // rmse_height_day = 0.3064
+        // rmse_period_day = 9.148
+        // rmse_dir_day = 20.71
+
+
+
+
+
+
+
         // FORECAST
         if ( event === 'Forecast' ) {
 
@@ -148,13 +172,13 @@ export default {
 
           // check which models confidence to display ('Wave Height', 'Peak Period', 'Direction' models)
           if ( this.activeGraphItem == 'Wave Height' ) {
-            this.confidence = this.historyData.summary_history.waveHeight.confidence
+            this.confidence = 0.3064
           }
           else if ( this.activeGraphItem == 'Peak Period' ) {
-            this.confidence = this.historyData.summary_history.peakPeriod.confidence
+            this.confidence = 9.148
           }
           else if ( this.activeGraphItem == 'Direction' ) {
-            this.confidence = this.historyData.summary_history.direction.confidence
+            this.confidence = 20.71
           }
 
           this.height = this.historyData.summary_history.waveHeight.day
@@ -168,13 +192,13 @@ export default {
 
           // check which models confidence to display ('Wave Height', 'Peak Period', 'Direction' models)
           if ( this.activeGraphItem == 'Wave Height' ) {
-            this.confidence = this.historyData.summary_history.waveHeight.confidence
+            this.confidence = 0.1462
           }
           else if ( this.activeGraphItem == 'Peak Period' ) {
-            this.confidence = this.historyData.summary_history.peakPeriod.confidence
+            this.confidence = 13.01
           }
           else if ( this.activeGraphItem == 'Direction' ) {
-            this.confidence = this.historyData.summary_history.direction.confidence
+            this.confidence = 16.77
           }
           
           this.height = this.historyData.summary_history.waveHeight.week
@@ -188,13 +212,14 @@ export default {
 
           // check which models confidence to display ('Wave Height', 'Peak Period', 'Direction' models)
           if ( this.activeGraphItem == 'Wave Height' ) {
-            this.confidence = this.historyData.summary_history.waveHeight.confidence
+            this.confidence = 0.1752 // rmse_height_mnth
           }
           else if ( this.activeGraphItem == 'Peak Period' ) {
-            this.confidence = this.historyData.summary_history.peakPeriod.confidence
+            this.confidence = 11.83 // rmse_period_mnth
           }
           else if ( this.activeGraphItem == 'Direction' ) {
-            this.confidence = this.historyData.summary_history.direction.confidence
+            this.confidence = 19.99
+            this.confidence = 19.99
           }
 
           this.height = this.historyData.summary_history.waveHeight.month

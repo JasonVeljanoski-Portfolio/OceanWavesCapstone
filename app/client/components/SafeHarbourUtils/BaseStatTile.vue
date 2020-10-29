@@ -89,6 +89,11 @@ export default {
 
       }
 
+
+      if (this.tag === "") {
+        color = '#4a98f7'
+      }
+
       return {
         'color': color
       }

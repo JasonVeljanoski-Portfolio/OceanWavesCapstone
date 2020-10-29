@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted() {
-  
+    // console.log(this.data)
     // [ SETUP CONSTANTS ] ---------------------------------------------------------------------
     const margin = { top: 10, right: 30, bottom: 30, left: 60 },
       width = this.width - margin.left - margin.right,

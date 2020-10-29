@@ -86,8 +86,8 @@ export default {
       }
   },
   mounted() {
-    this.confidence = this.oceanData.summary.forecast.confidence.waveHeight
-    this.height = this.oceanData.summary.forecast.height
+    this.confidence = 0.1987
+    this.height = 2.52
     this.period = this.oceanData.summary.forecast.period
 
     // get window width
@@ -110,6 +110,25 @@ export default {
           this.reScale(this.activeTime)
       },
       reScale(event) {
+
+
+        // ERROR STATS - HARD CODED (Whooops!)
+        // # MONTH.
+        // rmse_height_mnth = 0.1752
+        // rmse_period_mnth = 11.83
+        // rmse_dir_mnth = 19.99
+
+        // # WEEK.
+        // rmse_height_week = 0.1462
+        // rmse_period_week = 13.01
+        // rmse_dir_week = 16.77
+
+        // # DAY.
+        // rmse_height_day = 0.3064
+        // rmse_period_day = 9.148
+        // rmse_dir_day = 20.71
+
+
         this.activeTime = event
         // FORECAST
         if ( event === 'Forecast' ) {
@@ -118,7 +137,7 @@ export default {
 
           // check which models confidence to display ('Wave Height', 'Peak Period', 'Direction' models)
           if ( this.activeGraphItem === 'Wave Height' ) {
-            this.confidence = this.oceanData.summary.forecast.confidence.waveHeight
+            this.confidence = 0.1987
           }
           else if ( this.activeGraphItem === 'Peak Period' ) {
             this.confidence = this.oceanData.summary.forecast.confidence.peakPeriod
@@ -127,7 +146,7 @@ export default {
             this.confidence = this.oceanData.summary.forecast.confidence.direction
           }
           
-          this.height = this.oceanData.summary.forecast.height
+          this.height = 2.52 // this.oceanData.summary.forecast.height
           this.period = this.oceanData.summary.forecast.period
 
         }
@@ -138,13 +157,13 @@ export default {
 
           // check which models confidence to display ('Wave Height', 'Peak Period', 'Direction' models)
           if ( this.activeGraphItem == 'Wave Height' ) {
-            this.confidence = this.oceanData.summary.waveHeight.confidence
+            this.confidence =  0.3064 // this.oceanData.summary.waveHeight.confidence
           }
           else if ( this.activeGraphItem == 'Peak Period' ) {
-            this.confidence = this.oceanData.summary.peakPeriod.confidence
+            this.confidence = 9.148
           }
           else if ( this.activeGraphItem == 'Direction' ) {
-            this.confidence = this.oceanData.summary.direction.confidence
+            this.confidence = 20.71
           }
 
           this.height = this.oceanData.summary.waveHeight.day
@@ -158,13 +177,13 @@ export default {
 
           // check which models confidence to display ('Wave Height', 'Peak Period', 'Direction' models)
           if ( this.activeGraphItem == 'Wave Height' ) {
-            this.confidence = this.oceanData.summary.waveHeight.confidence
+            this.confidence = 0.1462
           }
           else if ( this.activeGraphItem == 'Peak Period' ) {
-            this.confidence = this.oceanData.summary.peakPeriod.confidence
+            this.confidence = 13.01
           }
           else if ( this.activeGraphItem == 'Direction' ) {
-            this.confidence = this.oceanData.summary.direction.confidence
+            this.confidence = 16.77
           }
           
           this.height = this.oceanData.summary.waveHeight.week
@@ -178,13 +197,13 @@ export default {
 
           // check which models confidence to display ('Wave Height', 'Peak Period', 'Direction' models)
           if ( this.activeGraphItem == 'Wave Height' ) {
-            this.confidence = this.oceanData.summary.waveHeight.confidence
+            this.confidence = 0.1752
           }
           else if ( this.activeGraphItem == 'Peak Period' ) {
-            this.confidence = this.oceanData.summary.peakPeriod.confidence
+            this.confidence = 11.83
           }
           else if ( this.activeGraphItem == 'Direction' ) {
-            this.confidence = this.oceanData.summary.direction.confidence
+            this.confidence = 19.99
           }
 
           this.height = this.oceanData.summary.waveHeight.month
