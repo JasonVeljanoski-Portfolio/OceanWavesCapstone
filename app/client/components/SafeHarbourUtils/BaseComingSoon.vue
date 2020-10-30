@@ -4,7 +4,7 @@
         <BaseAmmarAvatar />
       </div>
       <div class="text">
-         <h4>"Coming Soon..."</h4>
+         <h4>"This feature is coming soon..."</h4>
       </div>
   </div>
 </template>
@@ -28,5 +28,5 @@ export default {
 
 .text
   width 100%
-  max-width 550px
+
 </style>

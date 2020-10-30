@@ -300,14 +300,14 @@ export default {
     if (this.width > 500) {
       svg.append("circle").attr("cx", legend.xpos).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("circle").attr("cx",legend.xpos).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
-      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Predicted Cottesloe Peak Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
-      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Recorded Cottesloe Peak Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 1).text("Predicted Cottesloe Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
+      svg.append("text").attr("x", legend.xpos + 18).attr("y", legend.ypos + 25).text("Recorded Cottesloe Direction").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
     }
     else {
       svg.append("circle").attr("cx", legend.xpos + 100).attr("cy", legend.ypos).attr("r", 6).style("fill", colour.red).style("cursor", "pointer").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
       svg.append("circle").attr("cx",legend.xpos + 100).attr("cy",legend.ypos + 24).attr("r", 6).style("fill", colour.blue).style("cursor", "pointer").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
-      svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 1).text("Predicted Cott Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
-      svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 25).text("Recorded Cott Period").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
+      svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 1).text("Predicted Cott Dir").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleRott).on("mouseover", mouseoverLegendRott).on("mouseleave", mouseleaveLegendRott)
+      svg.append("text").attr("x", legend.xpos + 18 + 100).attr("y", legend.ypos + 25).text("Recorded Cott Dir").style("cursor", "pointer").style("font-size", "15px").attr("alignment-baseline","middle").on("click", toggleCott).on("mouseover", mouseoverLegendCott).on("mouseleave", mouseleaveLegendCott)
     }
     // --------------------------------------------------------------------------------------
 

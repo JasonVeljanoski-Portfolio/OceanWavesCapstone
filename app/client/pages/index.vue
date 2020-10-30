@@ -5,7 +5,7 @@
 
       <div class="flexbox queue">
 
-        <h3>Forecast Reports</h3>
+        <h3>Reports</h3>
         <div class="spacer" />
         <BaseToggleRack @toggle="reScale($event)" :items="scaleitems" />
 
@@ -69,14 +69,14 @@ export default {
   },
   data() {
       return {
-          showForecast: true,
+          showForecast: false,
           activeGraphItem: 'Wave Height',
-          activeTime: 'Forecast',
+          activeTime: 'Last Day',
           graphitmes: ['Wave Height', 'Peak Period', 'Direction'],
-          scaleitems: ['Forecast', 'Last Day', 'Last Week', 'Last Month'],
+          scaleitems: ['Last Day', 'Last Week', 'Last Month', 'Forecast'],
           upperbound: 50,
           componentKey: 0,
-          time: 'Forecast',
+          time: 'Last Day',
           confidence: 0,
           height: 1,
           period: 2,
@@ -86,7 +86,7 @@ export default {
       }
   },
   mounted() {
-    this.confidence = 0.1987
+    this.confidence = 0.3064
     this.height = 2.52
     this.period = this.oceanData.summary.forecast.period
 
