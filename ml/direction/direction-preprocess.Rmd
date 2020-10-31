@@ -1,0 +1,282 @@
+---
+title: "Directional EDA"
+output: html_notebook
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(reticulate)
+library(gridExtra)
+```
+
+```{r}
+df <- read_csv('../ocean-waves.csv')
+```
+
+```{r}
+dir.breaks <- seq(0, 360, length.out=9)
+dir.labels <- c('N','NE','E','SE','S','SW','W','NW','')
+```
+
+# Distribution of direction per location
+
+```{r fig.width=5}
+p1 <- ggplot(df, aes(RottDirection, fill=after_stat(count))) +
+    geom_histogram(binwidth=5) + 
+    coord_polar() +
+    scale_fill_viridis_c(option='plasma') +
+    scale_x_continuous(breaks=dir.breaks, labels=dir.labels, limits=c(0,360)) +
+    theme(axis.text.y=element_blank(), axis.title=element_blank(),
+          axis.ticks.y=element_blank(), legend.position='none',
+          panel.grid.minor=element_blank()) +
+    ggtitle('Rottnest')
+
+p2 <- ggplot(df, aes(CottDirection, fill=after_stat(count))) +
+    geom_histogram(binwidth=5) + 
+    coord_polar() +
+    scale_fill_viridis_c(option='plasma') +
+    scale_x_continuous(breaks=dir.breaks, labels=dir.labels, limits=c(0,360)) +
+    theme(axis.text.y=element_blank(), axis.title=element_blank(),
+          axis.ticks.y=element_blank(), legend.position='none',
+          panel.grid.minor=element_blank()) +
+    ggtitle('Cottesloe')
+
+grid.arrange(p1, p2, ncol=2)
+```
+
+```{r fig.width=5}
+p.rot <- ggplot(df, aes(RottDirection, y=RottPeakPeriod, colour=RottHeight)) +
+    geom_point(alpha=0.4) + 
+    coord_polar() +
+    scale_colour_viridis_c(option='plasma') +
+    scale_x_continuous(breaks=dir.breaks, labels=dir.labels, limits=c(0,360)) +
+    scale_y_continuous(breaks=seq(0, 30, 5), limits=c(0,30)) +
+    ylab('Peak period (s)') +
+    theme(legend.position='none',
+        axis.title.x=element_blank(),
+        axis.title.y=element_text(colour='#9f9f9f'),
+        axis.text.y=element_text(colour='#9f9f9f'),
+        axis.ticks=element_line(colour='#9f9f9f'),
+        panel.grid.minor=element_blank()) +
+    ggtitle('Rottnest')
+
+p.cot <- ggplot(df, aes(CottDirection, y=CottPeakPeriod, colour=CottHeight)) +
+    geom_point(alpha=0.4) + 
+    coord_polar() +
+    scale_colour_viridis_c(option='plasma') +
+    scale_x_continuous(breaks=dir.breaks, labels=dir.labels, limits=c(0,360)) +
+    scale_y_continuous(breaks=seq(0, 30, 5), limits=c(0,30)) +
+    ylab('Peak period (s)') +
+    theme(legend.position='none',
+        axis.title.x=element_blank(),
+        axis.title.y=element_text(colour='#9f9f9f'),
+        axis.text.y=element_text(colour='#9f9f9f'),
+        axis.ticks=element_line(colour='#9f9f9f'),
+        panel.grid.minor=element_blank()) +
+    ggtitle('Cottesloe')
+
+grid.arrange(p.rot, p.cot, ncol=2)
+```
+
+We note some perculiar outliers in Cottesloe, with large swells supposedly coming from the NE (highly unlikely).
+
+
+## Relationship between Rottnest and Cottesloe direction
+```{r fig.width=5}
+p.xy.dir <- ggplot(df, aes(RottDirection, CottDirection, colour=abs(RottDirection-CottDirection))) +
+    geom_point(alpha=0.5) +
+    scale_x_continuous(breaks=seq(0, 360, 90), limits=c(0,360)) +
+    scale_y_continuous(breaks=seq(0, 360, 90), limits=c(0,360)) +
+    scale_colour_viridis_c(option='plasma') +
+    theme(legend.position='none')
+
+p.xy.dir
+```
+
+# Total distribution of Direction
+
+```{r}
+all.dir <- df[c('RottDirection','CottDirection')] %>% reshape2::melt()
+all.dir <- all.dir %>% rename(degrees=value)
+```
+
+```{r fig.width=5}
+p.all.dir <- ggplot(all.dir, aes(degrees, fill=after_stat(count))) +
+    geom_histogram(binwidth=5) + 
+    scale_x_continuous(breaks=dir.breaks, labels=dir.labels, limits=c(0,360)) +
+    coord_polar() +
+    scale_fill_viridis_c(option='plasma') +
+    theme(axis.text.y=element_blank(), axis.title=element_blank(),
+          axis.ticks.y=element_blank(), legend.position='none') +
+    ggtitle('Rottnest & Cottesloe')
+
+p.all.dir
+```
+
+# Searching for suitable angle to rotate axis
+(Where there is a lack of data)
+
+```{r}
+dir.bins <- all.dir %>% 
+    mutate(bin=cut(degrees, seq(0,360,20), labels=seq(1,360,20)),
+           bin=as.numeric(as.character(bin))-1) %>%
+    group_by(bin) %>%
+    summarise(freq=n())
+```
+
+```{r fig.width=5}
+dir.p1 <- ggplot(all.dir, aes(degrees, fill=after_stat(count))) +
+    geom_histogram(binwidth=10) +
+    geom_vline(aes(xintercept=40), colour='tomato', lwd=1) +
+    scale_x_continuous(breaks=dir.breaks, limits=c(0,360)) +
+    ylim(c(0,100)) +
+    coord_polar() +
+    scale_fill_viridis_c(option='plasma') +
+    theme(axis.text.y=element_blank(), axis.title=element_blank(),
+          axis.ticks.y=element_blank(), legend.position='none')
+
+dir.p2 <- ggplot(all.dir, aes(degrees, fill=after_stat(count))) +
+    geom_histogram(binwidth=10) +
+    geom_vline(aes(xintercept=40), colour='tomato', lwd=1) +
+    coord_cartesian(ylim=c(0,100)) +
+    scale_fill_viridis_c(option='plasma') +
+    theme(axis.text.y=element_blank(), axis.title=element_blank(),
+          axis.ticks.y=element_blank(), legend.position='none') +
+    ggtitle('Least common swell directions')
+
+grid.arrange(dir.p2, dir.p1, ncol=2)
+```
+40 degrees is found to be a suitable candidate for axis rotation. 
+
+```{r}
+rotate.degrees <- function(deg, rotate) {
+    deg <- deg + rotate
+    if (deg >= 360) {
+        deg <- deg - 360
+    } else if (deg < 0) {
+        deg <- deg + 360
+    }
+    return (deg)
+}
+```
+
+```{r}
+all.dir$rotated <- all.dir$degrees %>% sapply(rotate.degrees, rotate=-40)
+```
+
+```{r fig.width=5}
+p.all.dir.rotated <- ggplot(all.dir, aes(rotated, fill=after_stat(count))) +
+    geom_histogram(binwidth=5) + 
+    scale_x_continuous(breaks=dir.breaks, limits=c(0,360)) +
+    geom_vline(aes(xintercept=0), colour='tomato', lwd=1) +
+    coord_polar() +
+    coord_polar(start=40*pi/180) +
+    scale_fill_viridis_c(option='plasma') +
+    theme(axis.text.y=element_blank(), axis.title=element_blank(),
+          axis.ticks.y=element_blank(), legend.position='none') +
+    ggtitle('Rottnest & Cottesloe, rotated -40°')
+
+grid.arrange(
+    p.all.dir +
+        scale_x_continuous(breaks=dir.breaks, limits=c(0,360)) +
+        geom_vline(aes(xintercept=0), colour='tomato', lwd=1),
+    p.all.dir.rotated,
+    ncol=2
+)
+```
+
+```{r fig.width=5, fig.height=2.5}
+p.xy.dir.rotated <- ggplot(df, aes(
+        x=RottDirection %>% sapply(rotate.degrees, rotate=-40),
+        y=CottDirection %>% sapply(rotate.degrees, rotate=-40),
+        colour=abs(RottDirection-CottDirection))) +
+    geom_point(alpha=0.5) +
+    scale_colour_viridis_c(option='plasma') +
+    theme(legend.position='none') +
+    labs(x='Rottnest Direction rotated -40°',
+         y='Cottesloe Direction rotated -40°',
+         title='After -40° rotation')
+
+grid.arrange(p.xy.dir + ggtitle('Before rotation'), p.xy.dir.rotated, ncol=2)
+```
+
+
+```{r}
+with(df, abs(RottDirection - CottDirection) %>% mean())
+with(df, abs(
+    sapply(RottDirection, rotate.degrees, rotate=-40) -
+    sapply(CottDirection, rotate.degrees, rotate=-40)) %>% mean())
+```
+
+## Convert to radians
+#### [-pi, pi)
+```{r}
+all.dir$radians <- (all.dir$degrees * pi / 180) - pi
+all.dir$rotated.radians <- (all.dir$rotated * pi / 180) - pi
+```
+
+```{r}
+radian.grid <- seq(-pi, pi, length.out=5) %>% round(2)
+radian.labels <- c('-π', '-π/2', '0', 'π/2', 'π')
+radian.labels.polar <- c('', '-π/2', '0', 'π/2', 'π, -π')
+```
+
+```{r fig.width=5}
+p.all.dir.radians <- ggplot(all.dir, aes(radians, fill=after_stat(count))) +
+    geom_histogram(binwidth=2*pi/(360/5)) + 
+    scale_x_continuous(breaks=radian.grid, labels=radian.labels.polar, limits=c(-pi, pi)) +
+    geom_vline(aes(xintercept=pi), colour='darkgrey', lwd=1) +
+    coord_polar() + scale_fill_viridis_c(option='plasma') +
+    theme(axis.text.y=element_blank(), axis.title=element_blank(),
+          axis.ticks.y=element_blank(), legend.position='none') +
+    ggtitle('Radians, no rotation')
+
+p.all.dir.rotated.radians <- ggplot(all.dir, aes(rotated.radians, fill=after_stat(count))) +
+    geom_histogram(binwidth=2*pi/(360/5)) + 
+    scale_x_continuous(breaks=radian.grid, labels=radian.labels.polar, limits=c(-pi, pi)) +
+    geom_vline(aes(xintercept=pi), colour='darkgrey', lwd=1) +
+    coord_polar(start=40*pi/180) + scale_fill_viridis_c(option='plasma') +
+    theme(axis.text.y=element_blank(), axis.title=element_blank(),
+          axis.ticks.y=element_blank(), legend.position='none') +
+    ggtitle('Radians, after -40° rotation')
+
+grid.arrange(p.all.dir.radians, p.all.dir.rotated.radians, ncol=2)
+```
+
+```{r}
+df.dir.processed <- df %>% mutate(
+    CottRadians=(CottDirection * pi / 180) - pi,
+    RottRadians=(RottDirection * pi / 180) - pi,
+    CottRadiansRotated=(sapply(CottDirection, rotate.degrees, rotate=-40) * pi / 180) - pi,
+    RottRadiansRotated=(sapply(RottDirection, rotate.degrees, rotate=-40) * pi / 180) - pi,
+)
+```
+
+___
+# Projecting Direction onto the unit circle
+
+```{r fig.height=3, fig.width=6}
+p.cott.circ3 <- ggplot(df.dir.processed, aes(sin(pi*CottDirection/180), cos(pi*CottDirection/180))) +
+    geom_point(colour='#d34f72', alpha=0.3, size=2.5) +
+    ggtitle('Cottesloe') + labs(x='sin(Cottesloe Radians)', y='cos(Cottesloe Radians)')
+p.rott.circ3 <- ggplot(df.dir.processed, aes(sin(pi*RottDirection/180), cos(pi*RottDirection/180))) +
+    geom_point(colour='#5012a0', alpha=0.3, size=2.5) +
+    ggtitle('Rottnest') + labs(x='sin(Rottnest Radians)', y='cos(Rottnest Radians)')
+grid.arrange(p.cott.circ3, p.rott.circ3, ncol=2)
+```
+
+```{r}
+df.dir.processed <- df.dir.processed %>% 
+    mutate(
+        sinCottRad=sin(CottRadians),
+        cosCottRad=cos(CottRadians),
+        sinRottRad=sin(RottRadians),
+        cosRottRad=cos(RottRadians)
+    )
+```
+
+```{r}
+write_csv(df.dir.processed, '../ocean-waves-dir-processed.csv')
+```
+
