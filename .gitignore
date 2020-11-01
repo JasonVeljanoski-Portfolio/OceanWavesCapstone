@@ -1,5 +1,8 @@
 .vscode/
 
+# Jupyter:
+.virtual_documents/
+
 ### Node template
 
 # Logs
